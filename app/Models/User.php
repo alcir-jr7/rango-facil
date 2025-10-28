@@ -49,4 +49,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the stores owned by the user.
+     */
+    public function stores()
+    {
+        return $this->hasMany(Store::class, 'owner_id');
+    }
 }
