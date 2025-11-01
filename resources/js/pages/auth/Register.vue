@@ -25,6 +25,8 @@ import { LoaderCircle } from 'lucide-vue-next';
             class="flex flex-col gap-6"
         >
             <div class="grid gap-6">
+
+                <!-- Name -->
                 <div class="grid gap-2">
                     <Label for="name">Name</Label>
                     <Input
@@ -40,6 +42,7 @@ import { LoaderCircle } from 'lucide-vue-next';
                     <InputError :message="errors.name" />
                 </div>
 
+                <!-- Email -->
                 <div class="grid gap-2">
                     <Label for="email">Email address</Label>
                     <Input
@@ -54,13 +57,59 @@ import { LoaderCircle } from 'lucide-vue-next';
                     <InputError :message="errors.email" />
                 </div>
 
+                <!-- Confirm Email -->
+                <div class="grid gap-2">
+                    <Label for="email_confirmation">Confirm Email</Label>
+                    <Input
+                        id="email_confirmation"
+                        type="email"
+                        required
+                        :tabindex="3"
+                        autocomplete="email"
+                        name="email_confirmation"
+                        placeholder="Confirm your email"
+                    />
+                    <InputError :message="errors.email_confirmation" />
+                </div>
+
+                <!-- Phone -->
+                <div class="grid gap-2">
+                    <Label for="phone_number">Phone</Label>
+                    <Input
+                        id="phone_number"
+                        type="text"
+                        required
+                        :tabindex="4"
+                        autocomplete="tel"
+                        name="phone_number"
+                        placeholder="+5511999999999"
+                    />
+                    <InputError :message="errors.phone_number" />
+                </div>
+
+                <!-- Confirm Phone -->
+                <div class="grid gap-2">
+                    <Label for="phone_confirmation">Confirm Phone</Label>
+                    <Input
+                        id="phone_number_confirmation"
+                        type="text"
+                        required
+                        :tabindex="5"
+                        autocomplete="tel"
+                        name="phone_number_confirmation"
+                        placeholder="Confirm your phone"
+                    />
+                    <InputError :message="errors.phone_confirmation" />
+                </div>
+
+                <!-- Password -->
                 <div class="grid gap-2">
                     <Label for="password">Password</Label>
                     <Input
                         id="password"
                         type="password"
                         required
-                        :tabindex="3"
+                        :tabindex="6"
                         autocomplete="new-password"
                         name="password"
                         placeholder="Password"
@@ -68,13 +117,14 @@ import { LoaderCircle } from 'lucide-vue-next';
                     <InputError :message="errors.password" />
                 </div>
 
+                <!-- Confirm Password -->
                 <div class="grid gap-2">
                     <Label for="password_confirmation">Confirm password</Label>
                     <Input
                         id="password_confirmation"
                         type="password"
                         required
-                        :tabindex="4"
+                        :tabindex="7"
                         autocomplete="new-password"
                         name="password_confirmation"
                         placeholder="Confirm password"
@@ -82,10 +132,11 @@ import { LoaderCircle } from 'lucide-vue-next';
                     <InputError :message="errors.password_confirmation" />
                 </div>
 
+                <!-- Submit -->
                 <Button
                     type="submit"
                     class="mt-2 w-full"
-                    tabindex="5"
+                    :tabindex="8"
                     :disabled="processing"
                     data-test="register-user-button"
                 >
@@ -97,14 +148,13 @@ import { LoaderCircle } from 'lucide-vue-next';
                 </Button>
             </div>
 
-            <div class="text-center text-sm text-muted-foreground">
+            <div class="text-center text-sm text-muted-foreground mt-4">
                 Already have an account?
                 <TextLink
                     :href="login()"
                     class="underline underline-offset-4"
-                    :tabindex="6"
-                    >Log in</TextLink
-                >
+                    :tabindex="9"
+                >Log in</TextLink>
             </div>
         </Form>
     </AuthBase>
