@@ -17,12 +17,19 @@ import { Link } from '@inertiajs/vue3';
 import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
+
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'Minhas lojas',
+        href: '/stores',
+        icon: Folder,
+    },
+
 ];
 
 const footerNavItems: NavItem[] = [
@@ -36,6 +43,8 @@ const footerNavItems: NavItem[] = [
         href: 'https://laravel.com/docs/starter-kits#vue',
         icon: BookOpen,
     },
+    
+    
 ];
 </script>
 

@@ -25,7 +25,6 @@ class StoreStoreRequest extends FormRequest
             'name' => 'required|string|max:255',
             'is_open' => 'boolean',
             'auto_confirm_orders' => 'boolean',
-            'owner_id' => 'required|exists:users,id',
         ];
     }
 }
