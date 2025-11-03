@@ -3,91 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Produto</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <title>Editar Produto - {{ $product->name }}</title>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Editar Produto</h1>
+    <h1>Editar Produto</h1>
 
-        <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
+    <nav>
+        <a href="{{ route('stores.index') }}">Minhas Lojas</a> › 
+        <a href="{{ route('stores.show', $product->store_id) }}">{{ $product->store->name ?? 'Loja' }}</a> › 
+        Editar Produto
+    </nav>
 
-            <!-- Nome -->
-            <div class="mb-3">
-                <label for="name" class="form-label">Nome do Produto</label>
-                <input type="text"
-                       class="form-control @error('name') is-invalid @enderror"
-                       id="name" name="name"
-                       value="{{ old('name', $product->name) }}" required>
-                @error('name')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+    <h3>{{ $product->name }}</h3>
 
-            <!-- Descrição -->
-            <div class="mb-3">
-                <label for="description" class="form-label">Descrição</label>
-                <textarea class="form-control @error('description') is-invalid @enderror"
-                          id="description"
-                          name="description">{{ old('description', $product->description) }}</textarea>
-                @error('description')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+    @if ($errors->any())
+        <div>
+            <p><strong>Atenção!</strong></p>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-            <!-- Imagem -->
-            <div class="mb-3">
-                <label for="image_path" class="form-label">Imagem do Produto</label><br>
-                @if($product->image_path)
-                    <img src="{{ asset('storage/' . $product->image_path) }}" alt="Imagem atual" width="120" class="mb-2"><br>
-                @endif
-                <input type="file" class="form-control @error('image_path') is-invalid @enderror" id="image_path" name="image_path" accept="image/*">
-                @error('image_path')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+    <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
 
-            <!-- Preço -->
-            <div class="mb-3">
-                <label for="price" class="form-label">Preço</label>
-                <input type="number" step="0.01"
-                       class="form-control @error('price') is-invalid @enderror"
-                       id="price" name="price"
-                       value="{{ old('price', $product->price) }}" required>
-                @error('price')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+        <div>
+            <label for="name">Nome do Produto *</label><br>
+            <input type="text" id="name" name="name" value="{{ old('name', $product->name) }}" required>
+        </div>
 
-            <!-- Preço mínimo -->
-            <div class="mb-3">
-                <label for="min_price" class="form-label">Preço Mínimo (opcional)</label>
-                <input type="number" step="0.01"
-                       class="form-control @error('min_price') is-invalid @enderror"
-                       id="min_price" name="min_price"
-                       value="{{ old('min_price', $product->min_price) }}">
-                @error('min_price')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+        <div>
+            <label for="description">Descrição</label><br>
+            <textarea id="description" name="description" rows="4">{{ old('description', $product->description) }}</textarea>
+        </div>
 
-            <!-- Botões -->
-            <button type="submit" class="btn btn-success">
-                <i class="bi bi-save"></i> Atualizar
-            </button>
-            <a href="{{ route('products.index') }}" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i> Voltar
-            </a>
-        </form>
-    </div>
+        <div>
+            <label for="price">Preço de Venda *</label><br>
+            <input type="number" step="0.01" id="price" name="price" value="{{ old('price', $product->price) }}" required>
+        </div>
 
-    <!-- Bootstrap JS (opcional, para componentes como modais) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <div>
+            <label for="min_price">Preço Mínimo</label><br>
+            <input type="number" step="0.01" id="min_price" name="min_price" value="{{ old('min_price', $product->min_price) }}">
+        </div>
+
+        <div>
+            <label for="image_path">Imagem do Produto</label><br>
+            @if($product->image_path)
+                <p>Imagem Atual:</p>
+                <img src="{{ asset('storage/' . $product->image_path) }}" alt="Imagem atual" width="150"><br>
+            @endif
+            <input type="file" id="image_path" name="image_path" accept="image/*">
+        </div>
+
+        <br>
+        <div>
+            <a href="{{ route('stores.show', $product->store_id) }}">Cancelar</a>
+            <button type="submit">Atualizar Produto</button>
+        </div>
+    </form>
+
+    <hr>
+
+    <h4>Informações do Produto</h4>
+    <ul>
+        <li><strong>Cadastrado em:</strong> {{ $product->created_at->format('d/m/Y H:i') }}</li>
+        <li><strong>Última atualização:</strong> {{ $product->updated_at->format('d/m/Y H:i') }}</li>
+        @if($product->store)
+            <li><strong>Loja:</strong> {{ $product->store->name }}</li>
+        @endif
+    </ul>
 </body>
 </html>

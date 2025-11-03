@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Store;
 
 class ProductController extends Controller
 {
@@ -19,9 +21,17 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('products.create');
+       // Pega o store_id da URL (?store_id=3)
+    $storeId = $request->query('store_id');
+    
+    // Verifica se o usuário é dono dessa loja
+    $store = Store::where('id', $storeId)
+                  ->where('owner_id', auth()->id())
+                  ->firstOrFail();
+    
+    return view('products.create', compact('store'));
     }
 
     /**
@@ -32,13 +42,15 @@ class ProductController extends Controller
     $data = $request->validate([
         'name' => 'required|string|max:255',
         'description' => 'nullable|string',
-        'image_path' => 'nullable|image',
         'price' => 'required|numeric',
         'min_price' => 'nullable|numeric',
+        'store_id' => 'required|exists:stores,id', // ← Adicione esta validação
     ]);
 
-    // Define o ID da loja a partir do usuário logado / A espera do cadastro de usuários
-    $data['store_id'] = auth()->user()->store->id;
+    // Verifica se o usuário é dono dessa loja
+    $store = Store::where('id', $data['store_id'])
+                  ->where('owner_id', auth()->id())
+                  ->firstOrFail();
 
     // Salva a imagem (se houver)
     if ($request->hasFile('image_path')) {
@@ -47,7 +59,8 @@ class ProductController extends Controller
 
     Product::create($data);
 
-    return redirect()->route('products.index')->with('success', 'Produto criado com sucesso!');
+    return redirect()->route('stores.show', $store->id)
+                     ->with('success', 'Produto criado com sucesso!');
 }
 
     /**
@@ -61,28 +74,66 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id, Product $product)
+    public function edit(Product $product)
     {
-        return view('products.edit', compact('product'));
+       // Verifica se o usuário é dono da loja desse produto
+    $store = Store::where('id', $product->store_id)
+                  ->where('owner_id', auth()->id())
+                  ->firstOrFail();
+    
+    return view('products.edit', compact('product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id, Product $product)
+    public function update(Request $request, Product $product)
     {
-        $product->update($request->all());
+       // Verifica se o usuário é dono da loja
+    $store = Store::where('id', $product->store_id)
+                  ->where('owner_id', auth()->id())
+                  ->firstOrFail();
 
-        return view('products.show', compact('product'));
+    $data = $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'price' => 'required|numeric|min:0',
+        'min_price' => 'nullable|numeric|min:0',
+    ]);
+
+    // Atualiza imagem se houver nova
+    if ($request->hasFile('image_path')) {
+        // Deleta imagem antiga se existir
+        if ($product->image_path) {
+            Storage::disk('public')->delete($product->image_path);
+        }
+        $data['image_path'] = $request->file('image_path')->store('products', 'public');
+    }
+
+    $product->update($data);
+
+    return redirect()->route('stores.show', $product->store_id)
+                     ->with('success', 'Produto atualizado com sucesso!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+        public function destroy(Product $product)
     {
+        // Verifica se o usuário é dono da loja
+        $store = Store::where('id', $product->store_id)
+                    ->where('owner_id', auth()->id())
+                    ->firstOrFail();
+
+        // Deleta a imagem se existir
+        if ($product->image_path) {
+            \Storage::disk('public')->delete($product->image_path);
+        }
+
         $product->delete();
 
-        return redirect()->route('products.index');
+        // Redireciona de volta para a loja (não sai do local)
+        return back()->with('success', 'Produto excluído com sucesso!');
     }
 }

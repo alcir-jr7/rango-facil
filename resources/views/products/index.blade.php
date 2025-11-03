@@ -3,21 +3,19 @@
 <head>
     <title>Lista de Produtos</title>
 </head>
-<body>    
-    <h1>Lista de Produtos</h1>        
+<body>
+    <h1>Lista de Produtos</h1>
 
     <!-- Botão para criar novo produto -->
-    <div style="margin-bottom: 15px;">
+    <div>
         <a href="{{ route('products.create') }}">
-            <button style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
-                + Novo Produto
-            </button>
+            <button>+ Novo Produto</button>
         </a>
     </div>
 
     <div>
         <table border="1" cellpadding="8" cellspacing="0">
-            <tr style="background-color: #f2f2f2;">
+            <tr>
                 <th>ID</th>
                 <th>Store ID</th>
                 <th>Nome</th>
@@ -53,28 +51,18 @@
                 <td>{{ $product->created_at->format('d/m/Y') }}</td>
 
                 <td>
-                    <!-- Botão Visualizar -->
                     <a href="{{ route('products.show', $product) }}">
-                        <button style="background-color: #2196F3; color: white; border: none; padding: 5px 10px; cursor: pointer;">
-                            Visualizar
-                        </button>
+                        <button>Visualizar</button>
                     </a>
 
-                    <!-- Botão Editar -->
                     <a href="{{ route('products.edit', $product) }}">
-                        <button style="background-color: #FFC107; color: black; border: none; padding: 5px 10px; cursor: pointer;">
-                            Editar
-                        </button>
+                        <button>Editar</button>
                     </a>
 
-                    <!-- Botão Excluir -->
                     <form action="{{ route('products.destroy', $product) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button style="background-color: #F44336; color: white; border: none; padding: 5px 10px; cursor: pointer;"
-                                onclick="return confirm('Deseja excluir este produto?')">
-                            Excluir
-                        </button>
+                        <button onclick="return confirm('Deseja excluir este produto?')">Excluir</button>
                     </form>
                 </td>
             </tr>
