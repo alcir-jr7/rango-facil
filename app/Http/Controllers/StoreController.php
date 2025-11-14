@@ -21,7 +21,7 @@ class StoreController extends Controller
     // Form de criação de loja
     public function create()
     {
-        return view('stores.create');
+        return Inertia::render('stores/create');
     }
 
     // Salva a nova loja
