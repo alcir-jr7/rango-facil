@@ -14,7 +14,7 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
+import { BookOpen, Store, LayoutGrid, Github } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 import { index } from '@/actions/App/Http/Controllers/StoreController';
 
@@ -37,7 +37,7 @@ const footerNavItems: NavItem[] = [
     {
         title: 'Github Repo',
         href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder,
+        icon: Github,
     },
     {
         title: 'Documentation',
