@@ -27,7 +27,7 @@ Route::middleware(['auth'])->group(function () {
 
 // Rotas de Stores protegidas pelo middleware auth
 Route::middleware(['auth'])->group(function () {
-    Route::resource('stores', StoreController::class);
+    Route::resource('stores', StoreController::class)->names('stores');
 
     Route::post('/stores/{store}/toggle-open', [StoreController::class, 'toggleOpen'])->name('stores.toggleOpen');
     Route::post('/stores/{store}/toggle-auto-confirm', [StoreController::class, 'toggleAutoConfirm'])->name('stores.toggleAutoConfirm');
