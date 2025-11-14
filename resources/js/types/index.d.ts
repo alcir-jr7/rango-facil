@@ -36,4 +36,14 @@ export interface User {
     updated_at: string;
 }
 
+export interface Store {
+    id: number;
+    name: string;
+    is_open: boolean;
+    auto_confirm_orders: boolean;
+    owner_id: number;
+    created_at: string;
+    updated_at: string;
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;
