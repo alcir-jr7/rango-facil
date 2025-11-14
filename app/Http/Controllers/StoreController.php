@@ -7,16 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Store;
 use App\Http\Requests\StoreStoreRequest;
 use App\Http\Requests\UpdateStoreRequest;
-
+use Inertia\Inertia;
 
 class StoreController extends Controller
 {
-    public function __construct()
-    {
-        // Garante que apenas usuários logados podem acessar qualquer método
-        $this->middleware('auth');
-    }
-
     // Lista todas as lojas do usuário logado
     public function index()
     {
@@ -100,7 +94,7 @@ class StoreController extends Controller
     // Verifica se o usuário logado é dono da loja
     private function authorizeStore(Store $store)
     {
-        if ($store->owner_id !== auth()->id()) {
+        if ($store->owner_id !== Auth::user()->id) {
             abort(403, 'Você não tem permissão para acessar esta loja.');
         }
     }
