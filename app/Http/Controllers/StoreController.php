@@ -14,8 +14,8 @@ class StoreController extends Controller
     // Lista todas as lojas do usuário logado
     public function index()
     {
-    $stores = Store::where('owner_id', Auth::id())->get();
-    return view('stores.index', compact('stores'));
+        $stores = Store::where('owner_id', Auth::id())->get();
+        return Inertia::render('stores/index', compact('stores'));
     }
 
     // Form de criação de loja
