@@ -26,26 +26,26 @@ class StoreController extends Controller
 
     // Salva a nova loja
     public function store(StoreStoreRequest $request)
-{
-    Store::create([
-        'name' => $request->name,
-        'is_open' => $request->is_open ?? false,
-        'auto_confirm_orders' => $request->auto_confirm_orders ?? false,
-        'owner_id' => Auth::id(), // Definido aqui, não vem do form
-    ]);
+    {
+        Store::create([
+            'name' => $request->name,
+            'is_open' => $request->is_open ?? false,
+            'auto_confirm_orders' => $request->auto_confirm ? true : false,
+            'owner_id' => Auth::id(), // Definido aqui, não vem do form
+        ]);
 
-    return redirect()->route('stores.index')->with('success', 'Loja criada com sucesso!');
-}
+        return redirect()->route('stores.index')->with('success', 'Loja criada com sucesso!');
+    }
 
     // Exibe detalhes da loja
     public function show(Store $store)
     {
-       $this->authorizeStore($store);
-    
-    // Carrega os produtos junto com a loja
-    $store->load('products');
-    
-    return view('stores.show', compact('store'));
+        $this->authorizeStore($store);
+
+        // Carrega os produtos junto com a loja
+        $store->load('products');
+
+        return view('stores.show', compact('store'));
     }
 
     // Form de edição da loja
