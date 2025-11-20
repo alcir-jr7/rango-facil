@@ -57,21 +57,6 @@ import { LoaderCircle } from 'lucide-vue-next';
                     <InputError :message="errors.email" />
                 </div>
 
-                <!-- Confirm Email -->
-                <div class="grid gap-2">
-                    <Label for="email_confirmation">Confirm Email</Label>
-                    <Input
-                        id="email_confirmation"
-                        type="email"
-                        required
-                        :tabindex="3"
-                        autocomplete="email"
-                        name="email_confirmation"
-                        placeholder="Confirm your email"
-                    />
-                    <InputError :message="errors.email_confirmation" />
-                </div>
-
                 <!-- Phone -->
                 <div class="grid gap-2">
                     <Label for="phone_number">Phone</Label>
@@ -85,22 +70,7 @@ import { LoaderCircle } from 'lucide-vue-next';
                         placeholder="+5511999999999"
                     />
                     <InputError :message="errors.phone_number" />
-                </div>
-
-                <!-- Confirm Phone -->
-                <div class="grid gap-2">
-                    <Label for="phone_confirmation">Confirm Phone</Label>
-                    <Input
-                        id="phone_number_confirmation"
-                        type="text"
-                        required
-                        :tabindex="5"
-                        autocomplete="tel"
-                        name="phone_number_confirmation"
-                        placeholder="Confirm your phone"
-                    />
-                    <InputError :message="errors.phone_confirmation" />
-                </div>
+                 </div>
 
                 <!-- Password -->
                 <div class="grid gap-2">
