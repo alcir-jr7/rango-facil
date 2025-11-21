@@ -14,12 +14,18 @@ defineProps<{
     title?: string;
     description?: string;
 }>();
+
+import { usePage } from '@inertiajs/vue3';
+
+const page = usePage();
+const isLoginPage = page.url.includes('/login');
+
 </script>
 
 <template>
     <div class="flex min-h-svh items-center justify-center bg-muted p-6 md:p-10">
 
-        <div class="flex w-full max-w-5xl h-[500px] bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="flex w-full max-w-5xl min-h-[500px] bg-white rounded-2xl shadow-xl">
 
             <div class="w-1/2 bg-orange-500 text-white flex flex-col items-center justify-center p-10">
                 
@@ -29,18 +35,32 @@ defineProps<{
                     </div>
                 </Link>
 
-                <h2 class="text-3xl font-bold mb-4">Faça seu cadastro</h2>
-                <p class="mb-6 text-lg">Realize sua primeira compra ;)</p>
+                <template v-if="isLoginPage">
+                    <h2 class="text-3xl font-bold mb-4">Faça seu cadastro</h2>
+                    <p class="mb-6 text-lg">Realize sua primeira compra ;)</p>
+                    <Link
+                        :href="'/register'"
+                        class="px-8 py-3 bg-white text-orange-500 font-bold rounded-xl shadow hover:bg-gray-100"
+                    >
+                        CADASTRAR
+                    </Link>
+                </template>
 
-                <Link
-                    :href="'/register'"
-                    class="px-8 py-3 bg-white text-orange-500 font-bold rounded-xl shadow hover:bg-gray-100"
-                >
-                    CADASTRAR
-                </Link>
+                <template v-else>
+                    <h2 class="text-3xl font-bold mb-4">Já tem conta?</h2>
+                    <p class="mb-6 text-lg">Faça login para continuar ;)</p>
+                    <Link
+                        :href="'/login'"
+                        class="px-8 py-3 bg-white text-orange-500 font-bold rounded-xl shadow hover:bg-gray-100"
+                    >
+                        ENTRAR
+                    </Link>
+                </template>
+                
             </div>
 
-            <div class="w-1/1 flex items-center justify-center p-10">
+            <div class="w-1/1 flex items-center justify-center p-10 overflow-y-auto">
+
 
                 <Card class="w-full border-none shadow-none">
                     <CardHeader class="text-center">
