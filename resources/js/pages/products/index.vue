@@ -86,7 +86,7 @@ defineProps<Props>();
 
                                 <!-- Excluir Produto -->
                                 <Link
-                                    :href="`/products/${product.id}/delete?store_id=${store_id}`"
+                                    :href="`/products/${product.id}?store_id=${store_id}`" method="delete" as="button"
                                     class="flex w-32 cursor-pointer justify-center text-white"
                                     :class="buttonVariants({ variant: 'destructive' })"
                                 >

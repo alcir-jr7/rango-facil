@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Controllers;
-
 
 use App\Models\Product;
 use App\Models\Store;
@@ -24,7 +22,7 @@ class ProductController extends Controller
     }
 
 
-        public function create(Request $request)
+    public function create(Request $request)
     {
         $storeId = $request->query('store_id');
        
@@ -34,7 +32,7 @@ class ProductController extends Controller
     }
 
 
-            public function store(Request $request)
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'store_id'    => 'required|exists:stores,id',
@@ -62,26 +60,53 @@ class ProductController extends Controller
         return redirect()->route('products.index', ['store_id' => $validated['store_id']])
             ->with('success', 'Produto criado com sucesso!');
     }
-        public function edit(Product $product)
-        {
-            return Inertia::render('products/edit', [
-                'product' => $product
-            ]);
-        }
+
+
+    public function edit(Product $product)
+    {
+        return Inertia::render('products/edit', [
+            'product' => [
+                ...$product->toArray(),
+
+                // Converte image_path → URL acessível no front
+                'image' => $product->image_path
+                    ? asset('storage/' . $product->image_path)
+                    : null,
+            ],
+
+            'store_id' => $product->store_id,
+        ]);
+    }
 
 
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
+            'store_id'    => 'required|integer',
             'name'  => 'required|string|max:255',
+            'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
+            'min_price'   => 'nullable|numeric|min:0',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
+        // Caso o usuário envie uma nova foto
+        if ($request->hasFile('image')) {
+
+            // Apaga a foto antiga se existir
+            if ($product->image_path && Storage::disk('public')->exists($product->image_path)) {
+                Storage::disk('public')->delete($product->image_path);
+            }
+
+            // Salva a nova foto
+            $validated['image_path'] = $request->file('image')
+                    ->store('products', 'public');
+        }
 
         $product->update($validated);
 
 
-        return back()->with('success', 'Product updated successfully!');
+        return redirect()->route('products.index', ['store_id' => $product->store_id])->with('success', 'Product updated successfully!');
     }
 
 
