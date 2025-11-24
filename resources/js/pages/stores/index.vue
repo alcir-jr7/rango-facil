@@ -7,6 +7,7 @@ import { toggleOpen } from '@/routes/stores';
 import { Store, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
 
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Stores',
@@ -14,12 +15,15 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+
 interface Props {
     stores: Array<Store>;
 }
 
+
 defineProps<Props>();
 </script>
+
 
 <template>
     <Head title="Stores" />
@@ -53,25 +57,31 @@ defineProps<Props>();
                                 </Badge>
                             </div>
 
-                            <Link
-                                :href="toggleOpen(store.id)"
-                                class="mt-4 mr-4 flex w-32 cursor-pointer justify-center text-white"
-                                :class="
-                                    store.is_open
-                                        ? buttonVariants({
-                                              variant: 'destructive',
-                                          })
-                                        : buttonVariants({ variant: 'success' })
-                                "
-                            >
-                                <div class="flex items-center">
-                                    {{
-                                        store.is_open
-                                            ? 'Fechar Loja'
-                                            : 'Abrir Loja'
-                                    }}
-                                </div>
-                            </Link>
+
+                            <div class="flex mt-4 mr-4 space-x-2">
+                                <!-- Botão Abrir/Fechar Loja -->
+                                <Link
+                                    :href="toggleOpen(store.id)"
+                                    class="flex w-32 cursor-pointer justify-center text-white"
+                                    :class="store.is_open
+                                        ? buttonVariants({ variant: 'destructive' })
+                                        : buttonVariants({ variant: 'success' })"
+                                >
+                                    <div class="flex items-center">
+                                        {{ store.is_open ? 'Fechar Loja' : 'Abrir Loja' }}
+                                    </div>
+                                </Link>
+
+
+                                <!-- Botão Adicionar Produto -->
+                                <Link
+                                    :href="`/products?store_id=${store.id}`"
+                                    class="flex w-40 cursor-pointer justify-center text-white"
+                                    :class="buttonVariants({ variant: 'default' })"
+                                >
+                                    <div class="flex items-center">Adicionar Produto</div>
+                                </Link>
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -79,3 +89,5 @@ defineProps<Props>();
         </div>
     </AppLayout>
 </template>
+
+

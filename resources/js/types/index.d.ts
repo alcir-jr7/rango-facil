@@ -1,14 +1,17 @@
 import { InertiaLinkProps } from '@inertiajs/vue3';
 import type { LucideIcon } from 'lucide-vue-next';
 
+
 export interface Auth {
     user: User;
 }
+
 
 export interface BreadcrumbItem {
     title: string;
     href: string;
 }
+
 
 export interface NavItem {
     title: string;
@@ -16,6 +19,7 @@ export interface NavItem {
     icon?: LucideIcon;
     isActive?: boolean;
 }
+
 
 export type AppPageProps<
     T extends Record<string, unknown> = Record<string, unknown>,
@@ -25,6 +29,7 @@ export type AppPageProps<
     auth: Auth;
     sidebarOpen: boolean;
 };
+
 
 export interface User {
     id: number;
@@ -36,6 +41,7 @@ export interface User {
     updated_at: string;
 }
 
+
 export interface Store {
     id: number;
     name: string;
@@ -45,5 +51,18 @@ export interface Store {
     created_at: string;
     updated_at: string;
 }
+
+
+export interface Product {
+    id: number;
+    name: string;
+    price: number;
+    store_id: number;
+    created_at?: string;
+    updated_at?: string;
+}
+
+
+
 
 export type BreadcrumbItemType = BreadcrumbItem;
