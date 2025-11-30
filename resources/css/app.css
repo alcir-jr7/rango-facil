@@ -149,7 +149,7 @@
     --destructive: hsl(0 84% 60%);
     --destructive-foreground: hsl(0, 0%, 100%);
     --border: hsl(0 0% 14.9%);
-    --input: hsl(0, 0%, 1%);
+    --input: hsl(0, 3%, 85%);
     --ring: hsl(0, 15%, 89%);
     --chart-1: hsl(220 70% 50%);
     --chart-2: hsl(160 60% 45%);
