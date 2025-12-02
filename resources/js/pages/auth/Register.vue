@@ -68,6 +68,7 @@ import { LoaderCircle } from 'lucide-vue-next';
                         autocomplete="tel"
                         name="phone_number"
                         placeholder="+5511999999999"
+                        mask="+55 ## #####-####"
                     />
                     <InputError :message="errors.phone_number" />
                  </div>
