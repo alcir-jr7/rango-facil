@@ -2,11 +2,14 @@
 import type { HTMLAttributes } from 'vue'
 import { cn } from '@/lib/utils'
 import { useVModel } from '@vueuse/core'
+import { vMaska } from 'maska/vue';
+import { MaskInputOptions } from 'maska';
 
 const props = defineProps<{
   defaultValue?: string | number
   modelValue?: string | number
   class?: HTMLAttributes['class']
+  mask?: string | MaskInputOptions
 }>()
 
 const emits = defineEmits<{
@@ -29,5 +32,6 @@ const modelValue = useVModel(props, 'modelValue', emits, {
       'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
       props.class,
     )"
+    v-maska="props.mask"
   >
 </template>
