@@ -17,6 +17,7 @@ class Store extends Model
      */
     protected $fillable = [
         'name',
+        'image',
         'is_open',
         'auto_confirm_orders',
         'owner_id',

@@ -29,15 +29,17 @@ const breadcrumbs: BreadcrumbItem[] = [
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="p-4 max-w-xl">
             <h1 class="mb-4 text-2xl font-bold">Criar Loja</h1>
-            <!-- Formulário de criação de loja -->
+
             <Form
                 v-bind="StoreController.store.form()"
+                enctype="multipart/form-data"
                 v-slot="{ errors, processing }"
             >
+                <!-- Nome -->
                 <div class="mb-4">
-                    <Label class="mb-2 block font-medium" for="name"
-                        >Nome da Loja</Label
-                    >
+                    <Label class="mb-2 block font-medium" for="name">
+                        Nome da Loja
+                    </Label>
                     <Input
                         class="w-full rounded border border-gray-300 p-2"
                         type="text"
@@ -48,15 +50,30 @@ const breadcrumbs: BreadcrumbItem[] = [
                     />
                     <InputError :message="errors.name" />
                 </div>
+
+                <!-- Imagem da loja -->
+                <div class="mb-4">
+                    <Label class="mb-2 block font-medium" for="image">
+                        Foto da Loja
+                    </Label>
+                    <Input
+                        class="w-full rounded border border-gray-300 p-2"
+                        type="file"
+                        id="image"
+                        name="image"
+                        accept="image/*"
+                    />
+                    <InputError :message="errors.image" />
+                </div>
+
+                <!-- Auto Confirmar -->
                 <div class="mb-4 flex w-full flex-row">
                     <Label for="auto_confirm" class="mt-1 mr-2 font-medium">
-                        <Checkbox
-                            id="auto_confirm"
-                            name="auto_confirm"
-                        />
+                        <Checkbox id="auto_confirm" name="auto_confirm" />
                         <span>Auto Confirmar Pedidos</span>
                     </Label>
                 </div>
+
                 <Button class="cursor-pointer" type="submit">
                     Criar Loja
                 </Button>

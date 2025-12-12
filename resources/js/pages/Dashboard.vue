@@ -1,200 +1,240 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
-import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
 import { Head } from '@inertiajs/vue3';
-import axios from 'axios';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 type Store = {
   id: number;
   name: string;
   is_open: boolean;
-  description?: string;
+  image?: string | null;
 };
 
 const props = defineProps<{
-  stores?: Store[];
+  stores: Store[];
 }>();
 
-// reativo baseado na prop (se enviada via Inertia)
-const stores = ref<Store[]>(props.stores ?? []);
+const stores = props.stores;
+const carouselRef = ref<HTMLElement | null>(null);
+const isPaused = ref(false);
+let scrollInterval: number | null = null;
 
-const loading = ref(false);
-const error = ref<string | null>(null);
-let intervalId: ReturnType<typeof setInterval> | null = null;
+const startAutoScroll = () => {
+    if (scrollInterval) return;
+  scrollInterval = window.setInterval(() => {
+    if (!isPaused.value && carouselRef.value) {
+      const container = carouselRef.value;
+      const maxScroll = container.scrollWidth - container.clientWidth;
 
-async function fetchStores() {
-  loading.value = true;
-  error.value = null;
-  try {
-    const res = await axios.get('/api/stores/statuses');
-    const payload = res.data?.data ?? [];
+      // Se estiver quase no final, volta ao início
+      if (container.scrollLeft + 2 >= maxScroll) {
+        container.scrollLeft = 0;
+        return;
+      }
 
-    const normalized: Store[] = payload.map((p: any) => {
-      const isOpen =
-        typeof p.is_open !== 'undefined'
-          ? !!p.is_open
-          : !!(p.status?.open ?? p.status?.is_open ?? false);
+      // Scroll normal
+      container.scrollLeft += 1;
+    }
+  }, 20);
 
-      return {
-        id: p.id,
-        name: p.name,
-        is_open: isOpen,
-        description: p.description ?? undefined,
-      } as Store;
-    });
+};
 
-    stores.value = normalized;
-  } catch (err: any) {
-    console.error('Erro ao buscar lojas', err);
-    error.value = err?.response?.data?.message ?? 'Erro ao buscar lojas';
-  } finally {
-    loading.value = false;
+const stopAutoScroll = () => {
+  if (scrollInterval) {
+    clearInterval(scrollInterval);
+    scrollInterval = null;
   }
-}
+};
+
+const handleMouseEnter = () => {
+  isPaused.value = true;
+};
+
+const handleMouseLeave = () => {
+  isPaused.value = false;
+};
 
 onMounted(() => {
-  fetchStores();
-  intervalId = setInterval(fetchStores, 15000);
+  startAutoScroll();
 });
 
 onUnmounted(() => {
-  if (intervalId) clearInterval(intervalId);
+  stopAutoScroll();
 });
-
-function badgeClasses(isOpen: boolean) {
-  return [
-    'inline-flex',
-    'items-center',
-    'px-3',
-    'py-1',
-    'rounded-full',
-    'text-sm',
-    'font-semibold',
-    isOpen ? 'bg-emerald-500/90 text-white' : 'bg-rose-500/90 text-white',
-    'shadow-sm',
-  ].join(' ');
-}
 </script>
 
 <template>
   <Head title="Dashboard" />
 
-  <AppLayout :breadcrumbs="[{ title: 'Dashboard', href: '/' }]">
-    <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-      <!-- GRID PRINCIPAL: cada loja será um CARD quadrado separado -->
-      <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-        <!-- loading placeholders -->
-        <template v-if="loading">
-          <div class="col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <PlaceholderPattern v-for="n in 6" :key="n" />
-          </div>
-        </template>
-
-        <!-- erro geral -->
-        <div v-else-if="error" class="col-span-3 text-rose-500">
-          {{ error }}
-        </div>
-
-        <!-- sem lojas -->
-        <div v-else-if="stores.length === 0" class="col-span-3 text-sm text-muted-foreground">
-          Nenhuma loja cadastrada.
-        </div>
-
-        <!-- cada loja vira um card separado (quadrado) -->
-        <template v-else>
-          <div v-for="s in stores" :key="s.id" class="col-span-1">
-            <div class="card-square rounded-xl border border-sidebar-border/70 dark:border-sidebar-border bg-card dark:bg-card-dark shadow-sm">
-              <div class="card-inner p-4 flex flex-col justify-between">
-                <div class="flex flex-col gap-2">
-                  <div class="flex items-center justify-between">
-                    <h3 class="text-base font-semibold truncate">{{ s.name }}</h3>
-                    <span :class="badgeClasses(s.is_open)">
-                      {{ s.is_open ? 'ABERTA' : 'FECHADA' }}
+  <AppLayout :breadcrumbs="[{ title: 'Rango Fácil', href: '/' }]">
+    <div class="min-h-screen bg-gradient-to-b from-orange-50 to-orange-100">
+      
+      <!-- Seção de Lojas -->
+      <div class="py-8 px-4" style="background-color: rgba(255,255,255,255);">
+        <div class="max-w-full mx-auto overflow-hidden">
+          <div 
+            ref="carouselRef"
+            @mouseenter="handleMouseEnter"
+            @mouseleave="handleMouseLeave"
+            class="flex gap-8 overflow-x-auto pb-4 px-4 custom-scrollbar"
+          >
+            
+            <template v-if="stores.length > 0">
+              <!-- Duplicar as lojas para efeito infinito -->
+              <template v-for="_ in 1" :key="_">
+                <div
+                  v-for="s in stores"
+                  :key="`${s.id}-${_}`"
+                  class="flex flex-col items-center flex-shrink-0"
+                >
+                  <!-- Logo circular da loja -->
+                  <div class="relative">
+                    <div class="w-32 h-32 rounded-full bg-white shadow-lg border-4 border-orange-400 overflow-hidden flex items-center justify-center">
+                      <img
+                        v-if="s.image"
+                        :src="`/storage/${s.image}`"
+                        :alt="s.name"
+                        class="w-full h-full object-cover"
+                      />
+                      <div v-else class="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+                        <span class="text-white text-3xl font-bold">{{ s.name.charAt(0) }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Nome e status -->
+                  <div class="flex items-center gap-2 mt-3">
+                    <h3 class="text-base font-semibold text-gray-800">{{ s.name }}</h3>
+                    <span 
+                      :class="s.is_open ? 'text-green-600' : 'text-red-600'"
+                      class="text-xl font-bold"
+                    >
+                      {{ s.is_open ? '✓' : '✗' }}
                     </span>
                   </div>
+                </div>
+              </template>
+            </template>
 
-                  <p class="text-sm text-muted-foreground truncate">
-                    {{ s.description ?? `ID: ${s.id}` }}
-                  </p>
+            <div
+              v-else
+              class="text-center text-gray-600 py-8 w-full"
+            >
+              Nenhuma loja cadastrada.
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+              <!-- Grade de Produtos (placeholder) -->
+          <div class="max-w-6xl mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              
+              <!-- Card estilo protótipo -->
+              <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                
+                <!-- Imagem -->
+                <div class="w-full h-40 bg-gray-100 flex items-center justify-center">
+                  <span class="text-gray-400 text-sm">Produto em breve</span>
                 </div>
 
-                <!-- rodapé simples (sem botão Ver) -->
-                <div class="text-xs text-muted-foreground text-right">ID: {{ s.id }}</div>
+                <!-- Conteúdo -->
+                <div class="p-4">
+                  <p class="text-lg font-bold text-orange-600">R$ 0,00</p>
+                  <p class="text-sm text-gray-700 mb-4">Nome do produto</p>
+
+                  <button class="w-full bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold py-2 rounded-lg transition">
+                    Comprar
+                  </button>
+                </div>
+
               </div>
+
             </div>
           </div>
-        </template>
-      </div>
 
-      <!-- Linha abaixo com dois cards de controle (ex.: métricas) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-          <PlaceholderPattern />
-        </div>
+      <!-- Footer -->
+      <footer class="bg-orange-500 text-white py-6 px-4 mt-12">
+        <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-12">
 
-        <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-4">
-          <h3 class="text-lg font-semibold mb-3">Resumo</h3>
-
-          <div v-if="stores.length === 0" class="text-sm text-muted-foreground">Sem dados</div>
-
-          <div v-else class="grid grid-cols-2 gap-3">
-            <div class="rounded-md border p-3">
-              <div class="text-sm text-muted-foreground">Total de lojas</div>
-              <div class="text-xl font-bold">{{ stores.length }}</div>
+                      <!-- Links 1 -->
+            <div class="flex flex-col gap-1">
+              <a href="#" class="text-sm hover:underline">cadastre sua loja</a>
+              <a href="#" class="text-sm hover:underline">código de conduta</a>
             </div>
-            <div class="rounded-md border p-3">
-              <div class="text-sm text-muted-foreground">Lojas abertas</div>
-              <div class="text-xl font-bold">{{ stores.filter(s => s.is_open).length }}</div>
+
+            <!-- Links 2 -->
+            <div class="flex flex-col gap-1">
+              <a href="#" class="text-sm hover:underline">privacidade</a>
+              <a href="#" class="text-sm hover:underline">quem somos</a>
             </div>
+
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+              <img src="/rangofacil.png" alt="RangoFácil" class="w-10 h-10 object-contain" />
+              <span class="font-bold text-xl">RangoFácil</span>
+            </div>
+
+
+            <!-- Redes sociais -->
+            <div class="flex gap-4 items-center">
+
+              <a href="#" target="_blank" class="hover:opacity-80 transition">
+                <i class="bi bi-instagram text-xl"></i>
+              </a>
+
+              <a href="#" target="_blank" class="hover:opacity-80 transition">
+                <i class="bi bi-linkedin text-xl"></i>
+              </a>
+
+              <a href="https://github.com/alcir-jr7/rango-facil" target="_blank" class="hover:opacity-80 transition">
+                <i class="bi bi-github text-xl"></i>
+              </a>
+
           </div>
-        </div>
-      </div>
 
-      <!-- Área grande -->
-      <div class="relative min-h-[60vh] flex-1 rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border p-4">
-        <PlaceholderPattern />
-      </div>
+        </div>
+      </footer>
+
+
     </div>
   </AppLayout>
 </template>
 
 <style scoped>
-/* card-square cria um quadrado real sem depender do plugin aspect-ratio do Tailwind */
-.card-square {
-  position: relative;
-  overflow: hidden;
+/* Animações suaves */
+.transform {
+  transition: transform 0.2s ease-in-out;
 }
 
-/* cria o bloco quadrado baseado em padding-top:100% */
-.card-square::before {
-  content: "";
-  display: block;
-  padding-top: 100%;
+/* Scrollbar customizada */
+.custom-scrollbar {
+  scroll-behavior: smooth;
 }
 
-/* conteúdo absoluto preenchendo o quadrado */
-.card-inner {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.custom-scrollbar::-webkit-scrollbar {
+  height: 12px;
 }
 
-/* cores neutrais que seguem variáveis do tema (se quiser, ajuste em CSS global) */
-.bg-card {
-  background-color: var(--card, #ffffff);
-}
-.dark .bg-card {
-  background-color: var(--card-dark, #0f1724);
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 243, 224, 0.5);
+  border-radius: 10px;
 }
 
-/* trunca texto descritivo em 2 linhas (opcional) */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(to right, #fb923c, #f97316);
+  border-radius: 10px;
+  border: 2px solid rgba(255, 243, 224, 0.5);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to right, #f97316, #ea580c);
+}
+
+/* Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #fb923c rgba(255, 243, 224, 0.5);
 }
 </style>

@@ -31,16 +31,25 @@ class StoreController extends Controller
     /**
      * Salva a nova loja
      */
-    public function store(StoreStoreRequest $request)
+        public function store(StoreStoreRequest $request)
     {
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('stores', 'public');
+        }
+
         Store::create([
             'name' => $request->name,
+            'image' => $imagePath,
             'is_open' => $request->is_open ?? false,
             'auto_confirm_orders' => $request->auto_confirm ? true : false,
             'owner_id' => Auth::id(),
         ]);
 
-        return redirect()->route('stores.index')->with('success', 'Loja criada com sucesso!');
+        return redirect()
+            ->route('stores.index')
+            ->with('success', 'Loja criada com sucesso!');
     }
 
     /**
