@@ -9,6 +9,22 @@ import AuthBase from '@/layouts/AuthLayout.vue';
 import { login } from '@/routes';
 import { Form, Head } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
+
+
+
+function maskPhone(e: Event) {
+    const input = e.target as HTMLInputElement;
+
+    let value = input.value.replace(/\D/g, '');
+
+    value = value.slice(0, 11);
+
+    value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+
+    input.value = value;
+}
+
+
 </script>
 
 <template>
@@ -67,7 +83,9 @@ import { LoaderCircle } from 'lucide-vue-next';
                         :tabindex="3"
                         autocomplete="tel"
                         name="phone_number"
-                        placeholder="+5511999999999"
+                        placeholder="(11) 99999-9999"
+                        maxlength="15"
+                        @input="maskPhone"
                     />
                     <InputError :message="errors.phone_number" />
                  </div>
