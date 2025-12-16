@@ -19,6 +19,8 @@ function maskPhone(e: Event) {
 
     value = value.slice(0, 11);
 
+    value = value.replace(/^(\d{2})(\d)/, '($1) $2');
+    value = value.replace(/^(\(\d{2}\) \d{5})(\d)/, '$1-$2');
     value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
 
     input.value = value;
