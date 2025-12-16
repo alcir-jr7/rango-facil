@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image')->nullable();
             $table->boolean('is_open')->default(false);
             $table->boolean('auto_confirm_orders')->default(false);
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
