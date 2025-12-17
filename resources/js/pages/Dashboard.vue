@@ -20,20 +20,11 @@ const isPaused = ref(false);
 let scrollInterval: number | null = null;
 
 const startAutoScroll = () => {
-    if (scrollInterval) return;
+
   scrollInterval = window.setInterval(() => {
     if (!isPaused.value && carouselRef.value) {
       const container = carouselRef.value;
       const maxScroll = container.scrollWidth - container.clientWidth;
-
-      // Se estiver quase no final, volta ao início
-      if (container.scrollLeft + 2 >= maxScroll) {
-        container.scrollLeft = 0;
-        return;
-      }
-
-      // Scroll normal
-      container.scrollLeft += 1;
     }
   }, 20);
 
@@ -67,7 +58,7 @@ onUnmounted(() => {
   <Head title="Dashboard" />
 
   <AppLayout :breadcrumbs="[{ title: 'Rango Fácil', href: '/' }]">
-    <div class="min-h-screen bg-gradient-to-b from-orange-50 to-orange-100">
+    <div class="">
       
       <!-- Seção de Lojas -->
       <div class="py-8 px-4" style="background-color: rgba(255,255,255,255);">
@@ -154,48 +145,7 @@ onUnmounted(() => {
             </div>
           </div>
 
-      <!-- Footer -->
-      <footer class="bg-orange-500 text-white py-6 px-4 mt-12">
-        <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-12">
-
-                      <!-- Links 1 -->
-            <div class="flex flex-col gap-1">
-              <a href="#" class="text-sm hover:underline">cadastre sua loja</a>
-              <a href="#" class="text-sm hover:underline">código de conduta</a>
-            </div>
-
-            <!-- Links 2 -->
-            <div class="flex flex-col gap-1">
-              <a href="#" class="text-sm hover:underline">privacidade</a>
-              <a href="#" class="text-sm hover:underline">quem somos</a>
-            </div>
-
-            <!-- Logo -->
-            <div class="flex items-center gap-2">
-              <img src="/rangofacil.png" alt="RangoFácil" class="w-10 h-10 object-contain" />
-              <span class="font-bold text-xl">RangoFácil</span>
-            </div>
-
-
-            <!-- Redes sociais -->
-            <div class="flex gap-4 items-center">
-
-              <a href="#" target="_blank" class="hover:opacity-80 transition">
-                <i class="bi bi-instagram text-xl"></i>
-              </a>
-
-              <a href="#" target="_blank" class="hover:opacity-80 transition">
-                <i class="bi bi-linkedin text-xl"></i>
-              </a>
-
-              <a href="https://github.com/alcir-jr7/rango-facil" target="_blank" class="hover:opacity-80 transition">
-                <i class="bi bi-github text-xl"></i>
-              </a>
-
-          </div>
-
-        </div>
-      </footer>
+    
 
 
     </div>
