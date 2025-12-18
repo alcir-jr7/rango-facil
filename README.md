@@ -7,9 +7,6 @@ O Rango Fácil é um projeto desenvolvido como um site/aplicativo voltado para a
 ## Objetivo Principal
 A plataforma tem como objetivo facilitar a interação entre vendedores e clientes, oferecendo um ambiente digital organizado para a divulgação de produtos e a realização de pedidos.
 
-## Objetivo Principal
-O objetivo principal do sistema é otimizar o processo de venda e compra de lanches, permitindo que clientes realizem pedidos de forma prática e que vendedores gerenciem seus produtos e pedidos de maneira eficiente.
-
 ## Público-Alvo
 O sistema é destinado a estudantes e funcionários do Campus Igarassu do IFPE, que podem se cadastrar como clientes ou vendedores.
 
