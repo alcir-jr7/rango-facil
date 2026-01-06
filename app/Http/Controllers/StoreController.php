@@ -14,11 +14,21 @@ class StoreController extends Controller
     /**
      * Lista todas as lojas do usuário logado (Inertia view)
      */
-    public function index()
-    {
-        $stores = Store::where('owner_id', Auth::id())->get();
-        return Inertia::render('stores/index', compact('stores'));
-    }
+    public function index(Request $request)
+{
+    $user = $request->user();
+
+    $stores = Store::withCount([
+        'favoritedBy as is_favorited' => function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        },
+    ])->get();
+
+    return Inertia::render('stores/index', [  // ou 'stores/Dashboard' se preferir
+        'stores' => $stores,
+    ]);
+}
+
 
     /**
      * Form de criação de loja (Inertia view)
