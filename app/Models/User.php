@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Store::class, 'owner_id');
     }
+public function favoriteStores()
+{
+    return $this->belongsToMany(Store::class, 'favorite_stores')
+                ->withTimestamps();
+}
 }

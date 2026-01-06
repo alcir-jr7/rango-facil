@@ -34,4 +34,10 @@ class Store extends Model
     {
         return $this->hasMany(Product::class, 'store_id');
     }
+    public function favoritedBy()
+{
+    return $this->belongsToMany(User::class, 'favorite_stores')
+                ->withTimestamps();
+}
+
 }
