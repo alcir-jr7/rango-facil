@@ -31,12 +31,12 @@ class DashboardController extends Controller
         // ✅ PRODUTOS (PEGANDO TODOS)
         $products = Product::select(
                 'id',
+                'store_id',
                 'name',
+                'description',
+                'image_path',
                 'price',
-                'valor',
-                'preco',
-                'price_cents',
-                'image'
+                'min_price'
             )
             ->orderBy('created_at', 'desc')
             ->get();
