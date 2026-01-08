@@ -41,13 +41,19 @@ const favorites = page.props.favorites as Store[] || [];
                     class="flex flex-col items-center text-center"
                 >
                     <!-- Logo -->
-                    <div
-                        class="w-24 h-24 rounded-full bg-orange-500 text-white
-                               flex items-center justify-center text-2xl font-bold"
-                    >
-                        {{ store.name.charAt(0) }}
+                     <div class="w-32 h-32 rounded-full border-4 border-orange-400 overflow-hidden bg-white shadow">
+                        <img
+                            v-if="store.image"
+                            :src="`/storage/${store.image}`"
+                            class="w-full h-full object-cover"
+                        />
+                        <div
+                            v-else
+                            class="w-full h-full bg-orange-400 flex items-center justify-center text-white text-2xl font-bold"
+                        >
+                            {{ store.name.charAt(0) }}
+                        </div>
                     </div>
-
                     <!-- Nome -->
                     <span class="mt-2 font-medium">
                         {{ store.name }}
