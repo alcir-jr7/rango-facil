@@ -20,8 +20,9 @@ type Product = {
   price?: number | string | null
   valor?: number | string | null
   preco?: number | string | null
+  min_price?: number | string | null
   price_cents?: number | null
-  image?: string | null
+  image_path?: string | null
 }
 
 /* =====================
@@ -35,18 +36,14 @@ const props = defineProps<{
 /* =====================
    PREÇO
 ===================== */
-const formatPrice = (p: Product) => {
-  const value =
-    p.price ??
-    p.valor ??
-    p.preco ??
-    (p.price_cents ? p.price_cents / 100 : 0)
-
+const formatCurrency = (value?: number | string | null) => {
   return Number(value || 0).toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
   })
 }
+
+const formatPrice = (p: Product) => formatCurrency(p.price)
 
 /* =====================
    CARROSSEL
@@ -161,8 +158,8 @@ onUnmounted(stopScroll)
           >
             <div class="w-full h-40 bg-gray-100 flex items-center justify-center">
               <img
-                v-if="p.image"
-                :src="`/storage/${p.image}`"
+                v-if="p.image_path"
+                :src="`/storage/${p.image_path}`"
                 class="w-full h-full object-cover"
               />
               <span v-else class="text-gray-400">
@@ -171,15 +168,29 @@ onUnmounted(stopScroll)
             </div>
 
             <div class="p-4">
-              <p class="text-lg font-bold text-orange-600">
-                {{ formatPrice(p) }}
-              </p>
-              <p class="text-sm text-gray-700 mb-4">
+              <p class="text-lg text-gray-950 flex items-center justify-center mb-4">
                 {{ p.name }}
               </p>
-              <button class="w-full bg-orange-500 text-white py-2 rounded-lg">
-                Comprar
-              </button>
+
+              <p class="text-lg font-bold text-orange-600 mb-4">
+                {{ formatCurrency(p.price) }}
+              </p>
+
+              <p
+                v-if="p.min_price"
+                class="text-sm text-gray-950 mb-4"
+              >
+                A partir de {{ formatCurrency(p.min_price) }}
+              </p>
+
+              <div class="flex items-center justify-center gap-5">
+                <button class="w-full bg-orange-500 text-white py-2 rounded-lg hover:opacity-80 transition">
+                  Comprar
+                </button>
+                <a href="#" target="_blank" class="hover:opacity-80 transition">
+                    <i class="bi-cart-plus-fill text-xl"></i>
+                </a>
+              </div>
             </div>
           </div>
         </div>
