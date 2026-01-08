@@ -29,7 +29,6 @@ type Product = {
 ===================== */
 const props = defineProps<{
   stores: Store[]
-  favoriteStores: Store[]
   products: Product[]
 }>()
 
@@ -77,31 +76,6 @@ onUnmounted(stopScroll)
 
   <AppLayout>
     <div class="space-y-14">
-
-      <!-- ⭐ LOJAS FAVORITAS -->
-      <section v-if="favoriteStores.length" 
-      class="px-6 pt-8 bg-white">
-        <h2 class="text-xl font-bold mb-6 text-orange-600">
-          Lojas Favoritas
-        </h2>
-
-        <div class="flex gap-10 justify-start flex-wrap">
-          <div
-            v-for="s in favoriteStores"
-            :key="s.id"
-            class="flex flex-col items-center"
-          >
-            <img
-              v-if="s.image"
-              :src="`/storage/${s.image}`"
-              class="w-32 h-32 rounded-full border-4 border-orange-500 object-cover"
-            />
-            <h3 class="mt-3 font-semibold text-orange-600">
-              {{ s.name }}
-            </h3>
-          </div>
-        </div>
-      </section>
 
       <!-- 🏪 TODAS AS LOJAS -->
       <section class="bg-orange-100 py-10">
@@ -170,7 +144,7 @@ onUnmounted(stopScroll)
         </div>
       </section>
 
-      <!-- 🛒 PRODUTOS (SEMPRE ABAIXO DAS LOJAS) -->
+      <!-- 🛒 PRODUTOS -->
       <section class="max-w-6xl mx-auto px-6 pb-16">
         <h2 class="text-xl font-bold mb-6">
           Produtos

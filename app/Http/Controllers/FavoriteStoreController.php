@@ -3,38 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Store;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class FavoriteStoreController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
+    /**
+     * Favoritar uma loja
+     */
     public function store(Store $store)
     {
-        DB::table('favorite_stores')->updateOrInsert(
-            [
-                'user_id' => auth()->id(),
-                'store_id' => $store->id,
-            ],
-            [
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]
-        );
+        $user = auth()->user();
+        
+        // Adiciona aos favoritos se ainda não estiver
+        if (!$user->favoriteStores()->where('store_id', $store->id)->exists()) {
+            $user->favoriteStores()->attach($store->id);
+        }
 
-        return back();
+        return redirect()->back();
     }
 
+    /**
+     * Desfavoritar uma loja
+     */
     public function destroy(Store $store)
     {
-        DB::table('favorite_stores')
-            ->where('user_id', auth()->id())
-            ->where('store_id', $store->id)
-            ->delete();
+        auth()->user()->favoriteStores()->detach($store->id);
 
-        return back();
+        return redirect()->back();
     }
 }

@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { User, ShoppingCart } from 'lucide-vue-next';
+import { User, ShoppingCart,Star } from 'lucide-vue-next';
 import { Link } from '@inertiajs/vue3';
 import type { BreadcrumbItemType } from '@/types';
 
@@ -39,15 +39,25 @@ withDefaults(
         </div>
 
         <div class="flex items-center gap-4 text-white">
+
             <span class="font-medium">
                 {{ $page.props.auth.user.name.split(' ')[0] }}
             </span>
 
-            <Link href="/settings/profile">
-                <User class="w-6 h-6 cursor-pointer" />
+            <Link href="/favorites" class="cursor-pointer z-50">
+                <Star class="w-6 h-6 hover:text-yellow-300" />
             </Link>
 
-            <ShoppingCart class="w-6 h-6 cursor-pointer" />
+            <Link href="/settings/profile" class="cursor-pointer z-50">
+                <User class="w-6 h-6" />
+            </Link>
+
+            <Link href="/cart" class="cursor-pointer z-50">
+                <ShoppingCart class="w-6 h-6" />
+            </Link>
+
         </div>
+
+
     </header>
 </template>

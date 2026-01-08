@@ -41,16 +41,16 @@ require __DIR__ . '/auth.php';
 Route::middleware(['auth'])->group(function () {
 
     /*
-    |---------------------------
+    |--------------------------------------------------------------------------
     | Produtos
-    |---------------------------
+    |--------------------------------------------------------------------------
     */
     Route::resource('products', ProductController::class)->except(['show']);
 
     /*
-    |---------------------------
+    |--------------------------------------------------------------------------
     | Lojas
-    |---------------------------
+    |--------------------------------------------------------------------------
     */
     Route::resource('stores', StoreController::class);
 
@@ -61,13 +61,36 @@ Route::middleware(['auth'])->group(function () {
         ->name('stores.toggleAutoConfirm');
 
     /*
-    |---------------------------
-    | Favoritar loja (✅ CORRETO)
-    |---------------------------
+    |--------------------------------------------------------------------------
+    | Favoritos
+    |--------------------------------------------------------------------------
     */
+
+    // Favoritar loja
     Route::post('/stores/{store}/favorite', [FavoriteStoreController::class, 'store'])
         ->name('stores.favorite');
 
+    // Desfavoritar loja
     Route::delete('/stores/{store}/favorite', [FavoriteStoreController::class, 'destroy'])
         ->name('stores.unfavorite');
+
+    // Página de favoritos
+    Route::get('/favorites', function () {
+        $favorites = auth()->user()
+            ->favoriteStores()
+            ->get()
+            ->map(function($store) {
+                return [
+                    'id' => $store->id,
+                    'name' => $store->name,
+                    'is_open' => (bool) ($store->is_open ?? false),
+                    'image' => $store->image ?? null,
+                ];
+            });
+
+        return Inertia::render('Favorites/Index', [
+            'favorites' => $favorites
+        ]);
+    })->name('favorites.index');
+
 });

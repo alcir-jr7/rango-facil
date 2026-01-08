@@ -25,9 +25,6 @@ class DashboardController extends Controller
             ->orderByDesc('is_favorited')
             ->get();
 
-        // SOMENTE favoritas
-        $favoriteStores = $stores->where('is_favorited', 1)->values();
-
         // ✅ PRODUTOS (PEGANDO TODOS)
         $products = Product::select(
                 'id',
@@ -43,7 +40,6 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard', [
             'stores' => $stores,
-            'favoriteStores' => $favoriteStores,
             'products' => $products, 
         ]);
     }
