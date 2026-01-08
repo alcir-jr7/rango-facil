@@ -9,12 +9,29 @@ use App\Http\Controllers\FavoriteStoreController;
 
 /*
 |--------------------------------------------------------------------------
-| Página inicial
+| Rotas públicas (SEM login)
 |--------------------------------------------------------------------------
 */
+
 Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
+
+Route::get('/quem-somos', function () {
+    return Inertia::render('QuemSomos');
+})->name('quem-somos');
+
+Route::get('/privacidade', function () {
+    return Inertia::render('Privacidade');
+})->name('privacidade');
+
+Route::get('/codigo-conduta', function () {
+    return Inertia::render('CodigoDeConduta');
+})->name('codigo-conduta');
+
+Route::get('/cadastre-loja', function () {
+    return Inertia::render('CadastreSuaLoja');
+})->name('cadastre-loja');
 
 /*
 |--------------------------------------------------------------------------
@@ -30,8 +47,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 | Auth / Settings
 |--------------------------------------------------------------------------
 */
-require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
+require __DIR__ . '/settings.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -66,20 +83,17 @@ Route::middleware(['auth'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    // Favoritar loja
     Route::post('/stores/{store}/favorite', [FavoriteStoreController::class, 'store'])
         ->name('stores.favorite');
 
-    // Desfavoritar loja
     Route::delete('/stores/{store}/favorite', [FavoriteStoreController::class, 'destroy'])
         ->name('stores.unfavorite');
 
-    // Página de favoritos
     Route::get('/favorites', function () {
         $favorites = auth()->user()
             ->favoriteStores()
             ->get()
-            ->map(function($store) {
+            ->map(function ($store) {
                 return [
                     'id' => $store->id,
                     'name' => $store->name,

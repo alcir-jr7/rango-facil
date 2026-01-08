@@ -5,14 +5,14 @@
 
             <!-- Links 1 -->
             <div class="flex flex-col gap-1">
-                <a href="#" class="text-sm hover:underline">cadastre sua loja</a>
-                <a href="#" class="text-sm hover:underline">código de conduta</a>
+                <a href="/cadastre-loja" class="text-sm hover:underline">cadastre sua loja</a>
+                <a href="/codigo-conduta" class="text-sm hover:underline">código de conduta</a>
             </div>
 
             <!-- Links 2 -->
             <div class="flex flex-col gap-1">
-                <a href="#" class="text-sm hover:underline">privacidade</a>
-                <a href="#" class="text-sm hover:underline">quem somos</a>
+                <a href="/privacidade" class="text-sm hover:underline">privacidade</a>
+                <a href="/quem-somos" class="text-sm hover:underline">quem somos</a>
             </div>
 
             <!-- Logo -->
