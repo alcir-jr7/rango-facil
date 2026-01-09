@@ -75,7 +75,8 @@ onUnmounted(stopScroll)
     <div class="space-y-14">
 
       <!-- 🏪 TODAS AS LOJAS -->
-      <section class="bg-orange-100 py-10">
+      <section class="py-10">
+      <div class="max-w-6xl mx-auto bg-orange-100 py-8 px-6">
         <h2 class="text-xl font-bold mb-6 px-6">
           Todas as Lojas
         </h2>
@@ -84,7 +85,7 @@ onUnmounted(stopScroll)
           ref="carouselRef"
           @mouseenter="isPaused = true"
           @mouseleave="isPaused = false"
-          class="flex gap-10 overflow-x-auto px-6 custom-scrollbar"
+          class="flex gap-10 overflow-x-auto px-6 pb-6 custom-scrollbar"
         >
           <div
             v-for="s in stores"
@@ -139,10 +140,11 @@ onUnmounted(stopScroll)
             </Link>
           </div>
         </div>
+      </div>
       </section>
 
       <!-- 🛒 PRODUTOS -->
-      <section class="max-w-6xl mx-auto px-6 pb-16">
+      <section class="max-w-5xl px-4 pb-8 -mt-8">
         <h2 class="text-xl font-bold mb-6">
           Produtos
         </h2>
@@ -154,9 +156,9 @@ onUnmounted(stopScroll)
           <div
             v-for="p in products"
             :key="p.id"
-            class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition"
+            class="bg-orange-500 text-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition "
           >
-            <div class="w-full h-40 bg-gray-100 flex items-center justify-center">
+            <div class="h-38 bg-white rounded-xl overflow-hidden m-2 flex items-center justify-center">
               <img
                 v-if="p.image_path"
                 :src="`/storage/${p.image_path}`"
@@ -167,24 +169,24 @@ onUnmounted(stopScroll)
               </span>
             </div>
 
-            <div class="p-4">
-              <p class="text-lg text-gray-950 flex items-center justify-center mb-4">
+            <div class="p-2">
+              <p class="text-xl text-white font-black flex items-center justify-center mb-2">
                 {{ p.name }}
               </p>
 
-              <p class="text-lg font-bold text-orange-600 mb-4">
+              <p class="text-lg text-white flex items-center justify-center mb-3">
                 {{ formatCurrency(p.price) }}
               </p>
 
               <p
                 v-if="p.min_price"
-                class="text-sm text-gray-950 mb-4"
+                class="text-sm text-white mb-3"
               >
                 A partir de {{ formatCurrency(p.min_price) }}
               </p>
 
               <div class="flex items-center justify-center gap-5">
-                <button class="w-full bg-orange-500 text-white py-2 rounded-lg hover:opacity-80 transition">
+                <button class="w-full bg-white text-orange-500 py-2 rounded-xl hover:opacity-80 transition">
                   Comprar
                 </button>
                 <a href="#" target="_blank" class="hover:opacity-80 transition">
@@ -218,6 +220,7 @@ onUnmounted(stopScroll)
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #fb923c transparent;
+  box-sizing: border-box;
 }
 .custom-scrollbar::-webkit-scrollbar {
   height: 10px;
