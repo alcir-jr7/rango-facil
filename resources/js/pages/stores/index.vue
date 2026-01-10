@@ -7,7 +7,6 @@ import { toggleOpen } from '@/routes/stores';
 import { Store, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
 
-
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Stores',
@@ -15,15 +14,12 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-
 interface Props {
     stores: Array<Store>;
 }
 
-
 defineProps<Props>();
 </script>
-
 
 <template>
     <Head title="Stores" />
@@ -32,19 +28,47 @@ defineProps<Props>();
             <Link :href="create()">
                 <Button class="cursor-pointer">Criar nova loja</Button>
             </Link>
+
             <div class="mt-6">
                 <h2 class="mb-4 text-xl font-bold">Minhas Lojas</h2>
+
                 <ul class="space-y-4">
                     <li
                         v-for="store in stores"
                         :key="store.id"
                         class="rounded-lg border transition hover:shadow-md"
                     >
-                        <div class="flex items-start justify-between">
-                            <div class="p-4">
-                                <h3 class="text-lg font-semibold">
-                                    {{ store.name }}
-                                </h3>
+                        <div class="flex items-center justify-between p-4">
+                            <!-- Logo + Nome (LINK PARA SHOW) -->
+                            <Link
+                                :href="`/stores/${store.id}`"
+                                class="flex items-center gap-4 hover:opacity-80"
+                            >
+                                <!-- Logo -->
+                                <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-full border">
+                                    <img
+                                        v-if="store.image"
+                                        :src="`/storage/${store.image}`"
+                                        alt="Logo da loja"
+                                        class="h-full w-full object-cover"
+                                    />
+                                    <div
+                                        v-else
+                                        class="flex h-full w-full items-center justify-center bg-gray-200 text-xs text-gray-500"
+                                    >
+                                        Sem logo
+                                    </div>
+                                </div>
+
+                                <!-- Nome -->
+                                <div class="flex flex-col">
+                                    <span class="text-base font-semibold">
+                                        {{ store.name }}
+                                    </span>
+                                </div>
+                            </Link>
+                            <!-- Status + Ações -->
+                            <div class="flex items-center gap-4">
                                 <Badge
                                     class="text-sm"
                                     :class="
@@ -55,31 +79,15 @@ defineProps<Props>();
                                 >
                                     {{ store.is_open ? 'Aberta' : 'Fechada' }}
                                 </Badge>
-                            </div>
 
-
-                            <div class="flex mt-4 mr-4 space-x-2">
-                                <!-- Botão Abrir/Fechar Loja -->
                                 <Link
                                     :href="toggleOpen(store.id)"
-                                    class="flex w-32 cursor-pointer justify-center text-white"
+                                    class="flex w-32 justify-center text-white"
                                     :class="store.is_open
                                         ? buttonVariants({ variant: 'destructive' })
                                         : buttonVariants({ variant: 'success' })"
                                 >
-                                    <div class="flex items-center">
-                                        {{ store.is_open ? 'Fechar Loja' : 'Abrir Loja' }}
-                                    </div>
-                                </Link>
-
-
-                                <!-- Botão Adicionar Produto -->
-                                <Link
-                                    :href="`/products?store_id=${store.id}`"
-                                    class="flex w-40 cursor-pointer justify-center text-white"
-                                    :class="buttonVariants({ variant: 'default' })"
-                                >
-                                    <div class="flex items-center">Adicionar Produto</div>
+                                    {{ store.is_open ? 'Fechar Loja' : 'Abrir Loja' }}
                                 </Link>
                             </div>
                         </div>
@@ -89,5 +97,3 @@ defineProps<Props>();
         </div>
     </AppLayout>
 </template>
-
-

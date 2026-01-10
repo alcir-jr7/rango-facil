@@ -11,24 +11,22 @@ use Inertia\Inertia;
 
 class StoreController extends Controller
 {
-    /**
-     * Lista todas as lojas do usuário logado (Inertia view)
-     */
     public function index(Request $request)
-{
-    $user = $request->user();
+    {
+        $user = $request->user();
 
-    $stores = Store::withCount([
-        'favoritedBy as is_favorited' => function ($q) use ($user) {
-            $q->where('user_id', $user->id);
-        },
-    ])->get();
+        $stores = Store::where('owner_id', $user->id) // ✅ FILTRA PELO DONO
+            ->withCount([
+                'favoritedBy as is_favorited' => function ($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                },
+            ])
+            ->get();
 
-    return Inertia::render('stores/index', [  // ou 'stores/Dashboard' se preferir
-        'stores' => $stores,
-    ]);
-}
-
+        return Inertia::render('stores/index', [
+            'stores' => $stores,
+        ]);
+    }
 
     /**
      * Form de criação de loja (Inertia view)
@@ -62,22 +60,34 @@ class StoreController extends Controller
             ->with('success', 'Loja criada com sucesso!');
     }
 
-    /**
-     * Exibe detalhes da loja (blade/view tradicional)
-     */
-    public function show(Store $store)
+        public function show(Store $store)
     {
         $this->authorizeStore($store);
 
-        // Carrega os produtos junto com a loja
+        // Carrega os produtos da loja
         $store->load('products');
 
-        return view('stores.show', compact('store'));
+        // Você pode adicionar lógica para calcular seguidores, avaliação, etc
+        // Por enquanto vou deixar como opcional no controller
+
+        return Inertia::render('stores/show', [
+            'store' => [
+                'id' => $store->id,
+                'name' => $store->name,
+                'image' => $store->image,
+                'is_open' => $store->is_open,
+                'auto_confirm_orders' => $store->auto_confirm_orders,
+                'owner_id' => $store->owner_id,
+                'opened_at' => $store->created_at, // ou outro campo que você tenha
+                'followers_count' => 100, // Você pode implementar isso depois
+                'following_count' => 10,  // Você pode implementar isso depois
+                'rating' => '4.9',        // Você pode implementar isso depois
+                'products' => $store->products,
+            ],
+            'authUserId' => Auth::id(),
+        ]);
     }
 
-    /**
-     * Form de edição da loja (blade/view tradicional)
-     */
     public function edit(Store $store)
     {
         $this->authorizeStore($store);

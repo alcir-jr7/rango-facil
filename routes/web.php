@@ -58,16 +58,12 @@ require __DIR__ . '/settings.php';
 Route::middleware(['auth'])->group(function () {
 
     /*
-    |--------------------------------------------------------------------------
     | Produtos
-    |--------------------------------------------------------------------------
     */
     Route::resource('products', ProductController::class)->except(['show']);
 
     /*
-    |--------------------------------------------------------------------------
-    | Lojas
-    |--------------------------------------------------------------------------
+    | Lojas (CRUD COMPLETO, INCLUINDO SHOW)
     */
     Route::resource('stores', StoreController::class);
 
@@ -78,11 +74,8 @@ Route::middleware(['auth'])->group(function () {
         ->name('stores.toggleAutoConfirm');
 
     /*
-    |--------------------------------------------------------------------------
     | Favoritos
-    |--------------------------------------------------------------------------
     */
-
     Route::post('/stores/{store}/favorite', [FavoriteStoreController::class, 'store'])
         ->name('stores.favorite');
 
@@ -106,5 +99,4 @@ Route::middleware(['auth'])->group(function () {
             'favorites' => $favorites
         ]);
     })->name('favorites.index');
-
 });
