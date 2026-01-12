@@ -17,4 +17,8 @@ class Product extends Model
         'price',
         'min_price',
     ];
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
 }
