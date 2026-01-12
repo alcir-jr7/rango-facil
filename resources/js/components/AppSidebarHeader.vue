@@ -2,10 +2,12 @@
 import { ref } from 'vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { User, ShoppingCart,Star } from 'lucide-vue-next';
-import { Link } from '@inertiajs/vue3';
+import { User, ShoppingCart, Star } from 'lucide-vue-next';
+import { Link, usePage } from '@inertiajs/vue3';
 import type { BreadcrumbItemType } from '@/types';
 
+const page = usePage()
+const cartCount = page.props.cartCount as number
 const trigger = ref();
 
 withDefaults(
@@ -54,10 +56,17 @@ withDefaults(
 
             <Link href="/cart" class="cursor-pointer z-50">
                 <ShoppingCart class="w-6 h-6" />
+                <span
+                    v-if="cartCount > 0"
+                    class="absolute top-1 right-1
+                           bg-red-600 text-white
+                           text-xs font-bold
+                           w-5 h-5 rounded-full
+                           flex items-center justify-center"
+                    >
+                    {{ cartCount }}
+                </span>
             </Link>
-
         </div>
-
-
     </header>
 </template>

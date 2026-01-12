@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
 import { ref, onMounted, onUnmounted } from 'vue'
+
+function updateCartCount() {
+  router.reload({
+    only: ['cartCount'],
+  })
+}
 
 /* =====================
    TIPOS
@@ -189,9 +195,16 @@ onUnmounted(stopScroll)
                 <button class="w-full bg-white text-orange-500 py-2 rounded-xl hover:opacity-80 transition">
                   Comprar
                 </button>
-                <a href="#" target="_blank" class="hover:opacity-80 transition">
-                    <i class="bi-cart-plus-fill text-xl"></i>
-                </a>
+                <Link
+                  :href="`/cart/add/${p.id}`"
+                  method="post"
+                  as="button"
+                  preserve-scroll
+                  @success="router.reload({ only: ['cartCount'] })"
+                  class="hover:opacity-80 transition"
+                >
+                  <i class="bi bi-cart-plus-fill text-xl"></i>
+                </Link>
               </div>
             </div>
           </div>
