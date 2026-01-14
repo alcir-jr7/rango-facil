@@ -13,8 +13,11 @@ use App\Http\Controllers\CartController;
 | Rotas públicas (SEM login)
 |--------------------------------------------------------------------------
 */
-
 Route::get('/', function () {
+    return Inertia::render('Landing');
+})->name('landing');
+
+Route::get('/welcome', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
