@@ -12,7 +12,7 @@ import { Head, Link } from '@inertiajs/vue3';
 
             <img 
                 src="/rangofacil.png" 
-                class="h-8 cursor-pointer" 
+                class="h-11 cursor-pointer" 
                 alt="Logo RangoFácil"
             />
 

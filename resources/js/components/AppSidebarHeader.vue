@@ -30,7 +30,7 @@ withDefaults(
 
             <img 
                 src="/rangofacil.png" 
-                class="h-8 cursor-pointer" 
+                class="h-15 cursor-pointer" 
                 alt="Logo RangoFácil"
                 @click="trigger?.$el?.click()"  
             />
