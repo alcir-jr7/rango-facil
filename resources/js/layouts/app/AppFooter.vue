@@ -94,8 +94,14 @@ onUnmounted(() => {
         <div>
           <h4 class="font-bold text-white mb-4">Contato</h4>
           <p>Brasil</p>
-          <p>contato@rangofacil.com</p>
-
+          <p>
+            <a
+                href="mailto:contatorangofacil@gmail.com"
+                class="hover:underline"
+            >
+                contatorangofacil@gmail.com
+            </a>
+          </p>
           <div class="flex gap-4 items-center mt-3">
             <a href="#" class="hover:opacity-80 transition">
               <i class="bi bi-instagram text-xl"></i>
