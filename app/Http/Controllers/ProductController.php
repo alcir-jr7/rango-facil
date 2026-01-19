@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Http\Request;
+use App\Models\ProductCategory;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
+
 
 
 class ProductController extends Controller
@@ -28,6 +31,7 @@ class ProductController extends Controller
        
         return Inertia::render('products/create', [
             'store_id' => $storeId,
+            'categories' => ProductCategory::all(),
         ]);
     }
 
@@ -36,6 +40,7 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'store_id'    => 'required|exists:stores,id',
+            'category_id' => 'required|exists:product_categories,id',
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
             'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
@@ -83,6 +88,7 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'store_id'    => 'required|integer',
+            'category_id' => 'required|exists:product_categories,id',
             'name'  => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
