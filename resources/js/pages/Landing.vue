@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3'
+  import { Head, Link } from '@inertiajs/vue3'
 </script>
 
 <template>
@@ -16,15 +16,15 @@ import { Head, Link } from '@inertiajs/vue3'
           class="w-10 h-10 object-contain"
         />
         <h1 class="font-bold text-xl text-orange-600">
-          RangoFácil
+          Rango Fácil
         </h1>
       </div>
       <!-- Navegação -->
       <nav class="hidden md:flex gap-8 text-sm font-medium text-gray-700">
-        <a href="#" class="hover:text-orange-500">Home</a>
-        <a href="#" class="hover:text-orange-500">Especialidades</a>
-        <a href="#" class="hover:text-orange-500">Sobre</a>
-        <a href="#" class="hover:text-orange-500">Contato</a>
+        <a href="#produtos" class="hover:text-orange-500">Produtos</a>
+        <a href="#lojas" class="hover:text-orange-500">Lojas</a>
+        <a href="#sobre" class="hover:text-orange-500">Sobre</a>
+        <a href="#contato" class="hover:text-orange-500">Contato</a>
       </nav>
       <!-- Ações -->
       <div class="flex items-center gap-6">
@@ -46,7 +46,7 @@ import { Head, Link } from '@inertiajs/vue3'
         <div class="absolute inset-y-0 left-0 w-1/2 bg-orange-400 rounded-r-[80px]"></div>
         <img
           src="/coxinha.png"
-          class="relative z-10 w-72 md:w-96 drop-shadow-2xl"
+          class="relative z-8 w-68 md:w-88 drop-shadow-2xl"
           alt="Comida"
         />
       </div>
@@ -92,7 +92,7 @@ import { Head, Link } from '@inertiajs/vue3'
   </section>
 
   <!-- ================= POPULARES ================= -->
-  <section class="py-24 bg-gray-50">
+  <section  id="produtos" class="py-24 bg-gray-50">
     <div class="max-w-7xl mx-auto px-6">
       <h3 class="text-center text-3xl font-bold mb-14">
         Mais <span class="text-orange-500">populares</span>
@@ -100,68 +100,68 @@ import { Head, Link } from '@inertiajs/vue3'
 
       <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-10">
         <div class="bg-white rounded-2xl shadow p-4">
-          <img src="/coxinha.png" class="rounded-xl mb-4" />
-          <h4 class="font-bold">Coxinha</h4>
+          <img src="/pastel-frito.png" class="rounded-xl mb-4" />
+          <h4 class="font-bold">Pastel</h4>
           <span class="text-sm text-orange-500">⭐ 4.7</span>
-          <button class="mt-4 w-full bg-orange-500 text-white py-2 rounded-full">
-            Comprar
-          </button>
+          <Link href="/register" class="mt-4 w-full block text-center bg-orange-500 text-white py-2 rounded-full hover:bg-orange-600 transition duration-300 hover:scale-105">
+          Comprar
+          </Link>
         </div>
         <div class="bg-white rounded-2xl shadow p-4">
-          <img src="/coxinha.png" class="rounded-xl mb-4" />
+          <img src="/hambúrguer.png" class="rounded-xl mb-4" />
           <h4 class="font-bold">Hambúrguer</h4>
           <span class="text-sm text-orange-500">⭐ 4.8</span>
-          <button class="mt-4 w-full bg-orange-500 text-white py-2 rounded-full">
-            Comprar
-          </button>
+          <Link href="/register" class="mt-4 w-full block text-center bg-orange-500 text-white py-2 rounded-full hover:bg-orange-600 transition duration-300 hover:scale-105">
+          Comprar
+          </Link>
         </div>
         <div class="bg-white rounded-2xl shadow p-4">
-          <img src="/coxinha.png" class="rounded-xl mb-4" />
+          <img src="/pizza.png" class="rounded-xl mb-4" />
           <h4 class="font-bold">Pizza</h4>
           <span class="text-sm text-orange-500">⭐ 4.9</span>
-          <button class="mt-4 w-full bg-orange-500 text-white py-2 rounded-full">
-            Comprar
-          </button>
+          <Link href="/register" class="mt-4 w-full block text-center bg-orange-500 text-white py-2 rounded-full hover:bg-orange-600 transition duration-300 hover:scale-105">
+          Comprar
+          </Link>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ================= LOJAS ================= -->
-  <section class="bg-[#FFF3C4] py-24">
+  <section id="lojas" class="bg-[#FFF3C4] py-24">
     <div class="max-w-7xl mx-auto px-6">
       <h3 class="text-center text-3xl font-bold mb-14">
         Lojas <span class="text-orange-500">perto de você</span>
       </h3>
 
       <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-        <div class="bg-white rounded-2xl shadow p-5 text-center">
-          <img src="/coxinha.png" class="rounded-xl mb-4 h-36 w-full object-cover" />
-          <h4 class="font-bold">Lanchonete do João</h4>
+        <Link href="/register" class="bg-white rounded-2xl shadow p-5 text-center block cursor-pointer hover:shadow-xl hover:-translate-y-2 transition duration-300">
+          <img src="/lanchonete.png" class="rounded-xl mb-4 h-36 w-full object-cover" />
+          <h4 class="font-bold">Silva Lanchonete</h4>
           <p class="text-sm text-gray-500">Lanches • Salgados</p>
           <span class="text-sm text-orange-500">⭐ 4.8</span>
-        </div>
+        </Link>
 
-        <div class="bg-white rounded-2xl shadow p-5 text-center">
-          <img src="/coxinha.png" class="rounded-xl mb-4 h-36 w-full object-cover" />
-          <h4 class="font-bold">Pastelaria Central</h4>
+        <Link href="/register" class="bg-white rounded-2xl shadow p-5 text-center block cursor-pointer hover:shadow-xl hover:-translate-y-2 transition duration-300">
+          <img src="/pastel.png" class="rounded-xl mb-4 h-36 w-full object-cover" />
+          <h4 class="font-bold">Pastelando</h4>
           <p class="text-sm text-gray-500">Pastéis • Bebidas</p>
           <span class="text-sm text-orange-500">⭐ 4.7</span>
-        </div>
+        </Link>
 
-        <div class="bg-white rounded-2xl shadow p-5 text-center">
-          <img src="/coxinha.png" class="rounded-xl mb-4 h-36 w-full object-cover" />
+        <Link href="/register" class="bg-white rounded-2xl shadow p-5 text-center block cursor-pointer hover:shadow-xl hover:-translate-y-2 transition duration-300">
+          <img src="/buger-house.png" class="rounded-xl mb-4 h-36 w-full object-cover" />
           <h4 class="font-bold">Burger House</h4>
           <p class="text-sm text-gray-500">Hambúrgueres</p>
           <span class="text-sm text-orange-500">⭐ 4.9</span>
-        </div>
+        </Link>
 
-        <div class="bg-white rounded-2xl shadow p-5 text-center">
-          <img src="/coxinha.png" class="rounded-xl mb-4 h-36 w-full object-cover" />
+        <Link href="/register" class="bg-white rounded-2xl shadow p-5 text-center block cursor-pointer hover:shadow-xl hover:-translate-y-2 transition duration-300">
+          <img src="/pizzaria.png" class="rounded-xl mb-4 h-36 w-full object-cover" />
           <h4 class="font-bold">Pizza Boa</h4>
           <p class="text-sm text-gray-500">Pizzas • Massas</p>
           <span class="text-sm text-orange-500">⭐ 4.6</span>
-        </div>
+        </Link>
       </div>
     </div>
   </section>
@@ -183,7 +183,7 @@ import { Head, Link } from '@inertiajs/vue3'
         <p class="px-11">Sabor perto de você.</p>
       </div>
 
-      <div>
+      <div id="sobre">
         <h4 class="font-bold text-white mb-4">Sobre</h4>
         <ul class="space-y-2">
           <li><Link href="https://github.com/alcir-jr7/rango-facil.git">Projeto</Link></li>
@@ -198,10 +198,14 @@ import { Head, Link } from '@inertiajs/vue3'
         <li>Avisos</li>
         </ul>
       </div>
-      <div>
+      <div id="contato">
         <h4 class="font-bold text-white mb-4">Contato</h4>
         <p>Brasil</p>
-        <p>contato@rangofacil.com</p>
+        <p>
+          <a href="mailto:contatorangofacil@gmail.com" class="hover:underline">
+            contatorangofacil@gmail.com
+          </a>
+        </p>
         <!-- Redes sociais --> 
         <div class="flex gap-4 items-center"> 
           <a href="#" target="_blank" class="hover:opacity-80 transition"> 
