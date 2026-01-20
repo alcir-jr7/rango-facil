@@ -9,21 +9,46 @@ export const buttonVariants = cva(
       variant: {
         default:
           'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
+
         destructive:
-          'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
+          `
+          bg-destructive
+          text-destructive-foreground
+          shadow-xs
+          hover:bg-destructive/90
+          focus-visible:ring-destructive/30
+          dark:bg-destructive
+          dark:hover:bg-destructive/90
+          dark:text-destructive-foreground
+          `,
+
         success:
-          'bg-success text-success-foreground shadow-xs hover:bg-success/90 focus-visible:ring-success/20 dark:focus-visible:ring-success/40 dark:bg-success/60',
+          `
+          bg-success
+          text-success-foreground
+          shadow-xs
+          hover:bg-success/90
+          focus-visible:ring-success/30
+          dark:bg-success
+          dark:hover:bg-success/90
+          `,
+
         outline:
           'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
+
         secondary:
           'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
+
         ghost:
           'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
-        link: 'text-primary underline-offset-4 hover:underline',
-         orange:
-          'bg-orange-500 text-white shadow-xs hover:bg-orange-600 focus-visible:ring-orange-300',
-      
+
+        link:
+          'text-primary underline-offset-4 hover:underline',
+
+        orange:
+          'bg-orange-500 text-white shadow-xs hover:bg-orange-600 focus-visible:ring-orange-300 dark:bg-orange-600 dark:hover:bg-orange-700',
       },
+
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',
         sm: 'h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5',

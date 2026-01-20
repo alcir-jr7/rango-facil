@@ -26,25 +26,27 @@ const passwordInput = ref<InstanceType<typeof Input> | null>(null);
 <template>
     <div class="space-y-6">
         <HeadingSmall
-            title="Delete account"
-            description="Delete your account and all of its resources"
+            title="Deletar conta"
+            description="Deletar sua conta permanentemente"
         />
         <div
             class="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10"
         >
-            <div class="relative space-y-0.5 text-red-600 dark:text-red-100">
-                <p class="font-medium">Warning</p>
+            <div class="relative space-y-0.5 text-neutral-900">
+                <p class="font-medium">Aviso</p>
                 <p class="text-sm">
-                    Please proceed with caution, this cannot be undone.
+                    Por favor, tenha em mente que a exclusão da sua conta é uma ação permanente. Todos os seus dados serão
+                    removidos e não poderão ser recuperados. Certifique-se de fazer backup de quaisquer informações
+                    importantes antes de prosseguir com a exclusão da conta.
                 </p>
             </div>
             <Dialog>
                 <DialogTrigger as-child>
                     <Button variant="destructive" data-test="delete-user-button"
-                        >Delete account</Button
+                        >Deletar conta</Button
                     >
                 </DialogTrigger>
-                <DialogContent>
+                    <DialogContent class=" bg-white dark:bg-card">
                     <Form
                         v-bind="ProfileController.destroy.form()"
                         reset-on-success
@@ -57,28 +59,28 @@ const passwordInput = ref<InstanceType<typeof Input> | null>(null);
                     >
                         <DialogHeader class="space-y-3">
                             <DialogTitle
-                                >Are you sure you want to delete your
-                                account?</DialogTitle
+                                >Tem certeza que deseja excluir sua conta?</DialogTitle
                             >
-                            <DialogDescription>
-                                Once your account is deleted, all of its
-                                resources and data will also be permanently
-                                deleted. Please enter your password to confirm
-                                you would like to permanently delete your
-                                account.
+                            <DialogDescription class="text-neutral-700 dark:text-neutral-800">
+                                
+                                Ao excluir sua conta, todos os seus dados e recursos serão
+                                removidos permanentemente. Esta ação não pode ser desfeita.
+                                Por favor, informe sua senha para confirmar.
+
                             </DialogDescription>
                         </DialogHeader>
 
                         <div class="grid gap-2">
                             <Label for="password" class="sr-only"
-                                >Password</Label
+                                >Senha</Label
                             >
                             <Input
-                                id="password"
-                                type="password"
-                                name="password"
-                                ref="passwordInput"
-                                placeholder="Password"
+                            id="password"
+                            type="password"
+                            name="password"
+                            ref="passwordInput"
+                            placeholder="Senha"
+                            class="text-neutral-800 placeholder:text-neutral-500"
                             />
                             <InputError :message="errors.password" />
                         </div>
@@ -86,16 +88,11 @@ const passwordInput = ref<InstanceType<typeof Input> | null>(null);
                         <DialogFooter class="gap-2">
                             <DialogClose as-child>
                                 <Button
-                                    variant="secondary"
-                                    @click="
-                                        () => {
-                                            clearErrors();
-                                            reset();
-                                        }
-                                    "
+                                class="bg-orange-500 text-white hover:bg-orange-600"
                                 >
-                                    Cancel
+                                Cancelar
                                 </Button>
+
                             </DialogClose>
 
                             <Button
@@ -104,7 +101,7 @@ const passwordInput = ref<InstanceType<typeof Input> | null>(null);
                                 :disabled="processing"
                                 data-test="confirm-delete-user-button"
                             >
-                                Delete account
+                                Deletar conta
                             </Button>
                         </DialogFooter>
                     </Form>

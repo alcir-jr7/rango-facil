@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class UserFactory extends Factory
 {
     /**
-     * The current password being used by the factory.
+     * A senha padrão para todos os usuários gerados.   
      */
     protected static ?string $password;
 

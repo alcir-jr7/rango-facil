@@ -42,7 +42,9 @@ import AppLayout from '@/layouts/AppLayout.vue'
         <li><strong>Karolayne Firmino</strong> — Design de UI/UX & Desenvolvedora Front-end</li>
         <li><strong>Marília Gabriela</strong> — Design de UI/UX & Full Stack</li>
         <li><strong>Mikaias Santos</strong> — Desenvolvedor Back-end</li>
+        <li><strong>Rui Barbosa</strong> — Design de UI/UX</li>
         <li><strong>Yara Regina</strong> — Desenvolvedora Back-end</li>
+
       </ul>
 
       <p class="mt-8">
