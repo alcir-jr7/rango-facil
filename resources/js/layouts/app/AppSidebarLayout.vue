@@ -17,11 +17,26 @@ withDefaults(defineProps<Props>(), {
 
 <template>
     <AppShell variant="sidebar">
-        <AppSidebar />
-        <AppContent variant="sidebar" class="overflow-x-hidden bg-white pb-28 relative">
+
+        <!-- SIDEBAR CUSTOMIZADA -->
+        <div class="bg-orange-500">
+            <AppSidebar />
+        </div>
+
+        <!-- CONTEÚDO FULL WIDTH -->
+        <AppContent 
+            variant="sidebar" 
+            class="overflow-x-hidden bg-white pb-28 relative w-full"
+        >
             <AppSidebarHeader :breadcrumbs="breadcrumbs" />
-            <slot />
+
+            <!-- Área expansiva -->
+            <div class="w-full px-6">
+                <slot />
+            </div>
+
             <AppFooter class="absolute bottom-0 left-0 right-0" />
         </AppContent>
+
     </AppShell>
 </template>
