@@ -67,9 +67,15 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('products', ProductController::class)->except(['show']);
 
     /*
-    | Lojas (CRUD COMPLETO, INCLUINDO SHOW)
+    | Lojas (CRUD COMPLETO, EXCETO SHOW) 
+    | ⚠️ IMPORTANTE: Colocar rotas específicas ANTES do resource
     */
-    Route::resource('stores', StoreController::class);
+    Route::get('/stores/create', [StoreController::class, 'create'])->name('stores.create');
+    Route::get('/stores', [StoreController::class, 'index'])->name('stores.index');
+    Route::post('/stores', [StoreController::class, 'store'])->name('stores.store');
+    Route::get('/stores/{store}/edit', [StoreController::class, 'edit'])->name('stores.edit');
+    Route::put('/stores/{store}', [StoreController::class, 'update'])->name('stores.update');
+    Route::delete('/stores/{store}', [StoreController::class, 'destroy'])->name('stores.destroy');
 
     Route::post('/stores/{store}/toggle-open', [StoreController::class, 'toggleOpen'])
         ->name('stores.toggleOpen');
@@ -105,10 +111,21 @@ Route::middleware(['auth'])->group(function () {
     })->name('favorites.index');
 });
 
+/*
+|--------------------------------------------------------------------------
+| STORE PÚBLICA (SHOW) - Deve vir DEPOIS das rotas autenticadas
+|--------------------------------------------------------------------------
+*/
+Route::get('/stores/{store}', [StoreController::class, 'show'])
+    ->name('stores.show');
 
-    /* Carrinho */
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-    Route::post('/cart/decrease/{product}', [CartController::class, 'decrease'])->name('cart.decrease');
-    Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::patch('/cart/update/{product}', [CartController::class, 'update'])->name('cart.update');
+/*
+|--------------------------------------------------------------------------
+| Carrinho
+|--------------------------------------------------------------------------
+*/
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/decrease/{product}', [CartController::class, 'decrease'])->name('cart.decrease');
+Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
+Route::patch('/cart/update/{product}', [CartController::class, 'update'])->name('cart.update');

@@ -82,73 +82,79 @@ onUnmounted(stopScroll)
 
       <!-- 🏪 TODAS AS LOJAS -->
       <section class="py-10">
-      <div class="max-w-6xl mx-auto bg-orange-100 py-8 px-6">
-        <h2 class="text-xl font-bold mb-6 px-6">
-          Todas as Lojas
-        </h2>
+        <div class="max-w-6xl mx-auto bg-orange-100 py-8 px-6">
+          <h2 class="text-xl font-bold mb-6 px-6">
+            Todas as Lojas
+          </h2>
 
-        <div
-          ref="carouselRef"
-          @mouseenter="isPaused = true"
-          @mouseleave="isPaused = false"
-          class="flex gap-10 overflow-x-auto px-6 pb-6 custom-scrollbar"
-        >
           <div
-            v-for="s in stores"
-            :key="s.id"
-            class="flex flex-col items-center flex-shrink-0 w-40"
+            ref="carouselRef"
+            @mouseenter="isPaused = true"
+            @mouseleave="isPaused = false"
+            class="flex gap-10 overflow-x-auto px-6 pb-6 custom-scrollbar"
           >
-            <div class="w-32 h-32 rounded-full border-4 border-orange-400 overflow-hidden bg-white shadow">
-              <img
-                v-if="s.image"
-                :src="`/storage/${s.image}`"
-                class="w-full h-full object-cover"
-              />
-              <div
-                v-else
-                class="w-full h-full bg-orange-400 flex items-center justify-center text-white text-2xl font-bold"
+            <div
+              v-for="s in stores"
+              :key="s.id"
+              class="flex flex-col items-center flex-shrink-0 w-40"
+            >
+              <!-- CARD CLICÁVEL -->
+              <Link
+                :href="`/stores/${s.id}`"
+                class="flex flex-col items-center cursor-pointer"
               >
-                {{ s.name.charAt(0) }}
-              </div>
+                <div class="w-32 h-32 rounded-full border-4 border-orange-400 overflow-hidden bg-white shadow">
+                  <img
+                    v-if="s.image"
+                    :src="`/storage/${s.image}`"
+                    class="w-full h-full object-cover"
+                  />
+                  <div
+                    v-else
+                    class="w-full h-full bg-orange-400 flex items-center justify-center text-white text-2xl font-bold"
+                  >
+                    {{ s.name.charAt(0) }}
+                  </div>
+                </div>
+
+                <h3 class="mt-3 font-semibold text-center">
+                  {{ s.name }}
+                </h3>
+
+                <span
+                  class="text-sm font-bold"
+                  :class="s.is_open ? 'text-green-600' : 'text-red-600'"
+                >
+                  {{ s.is_open ? 'Aberta' : 'Fechada' }}
+                </span>
+              </Link>
+
+              <!-- FAVORITO (fora do link) -->
+              <Link
+                v-if="!s.is_favorited"
+                :href="`/stores/${s.id}/favorite`"
+                method="post"
+                as="button"
+                preserve-scroll
+                class="mt-2 px-3 py-1 rounded-lg bg-orange-100 text-orange-600 font-semibold"
+              >
+                ☆ Favoritar
+              </Link>
+
+              <Link
+                v-else
+                :href="`/stores/${s.id}/favorite`"
+                method="delete"
+                as="button"
+                preserve-scroll
+                class="mt-2 px-3 py-1 rounded-lg bg-orange-500 text-white font-semibold"
+              >
+                ★ Favorito
+              </Link>
             </div>
-
-            <h3 class="mt-3 font-semibold text-center">
-              {{ s.name }}
-            </h3>
-
-            <span
-              class="text-sm font-bold"
-              :class="s.is_open ? 'text-green-600' : 'text-red-600'"
-            >
-              {{ s.is_open ? 'Aberta' : 'Fechada' }}
-            </span>
-
-            <Link
-              v-if="!s.is_favorited"
-              :href="`/stores/${s.id}/favorite`"
-              method="post"
-              as="button"
-              preserve-scroll
-              class="mt-2 px-3 py-1 rounded-lg bg-orange-100 text-orange-600 font-semibold"
-            >
-              ☆ Favoritar
-            </Link>
-
-            <Link
-              v-else
-              :href="`/stores/${s.id}/favorite`"
-              method="delete"
-              as="button"
-              preserve-scroll
-              class="mt-2 px-3 py-1 rounded-lg bg-orange-500 text-white font-semibold"
-            >
-              ★ Favorito
-            </Link>
           </div>
         </div>
-      </div>
       </section>
-
       <!-- 🛒 PRODUTOS -->
       <section class="max-w-5xl px-4 pb-8 -mt-8">
         <h2 class="text-xl font-bold mb-6">
