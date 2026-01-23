@@ -24,6 +24,7 @@
         <a href="#produtos" class="hover:text-orange-500">Produtos</a>
         <a href="#lojas" class="hover:text-orange-500">Lojas</a>
         <a href="#sobre" class="hover:text-orange-500">Sobre</a>
+        <a href="#avisos" class="hover:text-orange-500">Avisos</a>
         <a href="#contato" class="hover:text-orange-500">Contato</a>
       </nav>
       <!-- Ações -->
@@ -81,7 +82,7 @@
       <div>
         <div class="text-orange-500 text-4xl mb-4">⚡</div>
         <h3 class="font-bold mb-2">Entrega rápida</h3>
-        <p class="text-gray-500 text-sm">Restaurantes perto de você.</p>
+        <p class="text-gray-500 text-sm">O mais perto de você.</p>
       </div>
       <div>
         <div class="text-orange-500 text-4xl mb-4">⭐</div>
@@ -158,7 +159,7 @@
 
         <Link href="/register" class="bg-white rounded-2xl shadow p-5 text-center block cursor-pointer hover:shadow-xl hover:-translate-y-2 transition duration-300">
           <img src="/pizzaria.png" class="rounded-xl mb-4 h-36 w-full object-cover" />
-          <h4 class="font-bold">Pizza Boa</h4>
+          <h4 class="font-bold">Pizzaria Milanno</h4>
           <p class="text-sm text-gray-500">Pizzas • Massas</p>
           <span class="text-sm text-orange-500">⭐ 4.6</span>
         </Link>
@@ -167,7 +168,7 @@
   </section>
 
   <!-- ================= FOOTER ================= -->
-  <footer class="bg-orange-600 text-white py-4">
+  <footer class="bg-orange-500 text-white py-4">
     <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-10 text-sm">
       <div>
         <div class="flex items-center gap-1 mb-1">
@@ -191,11 +192,11 @@
           <li><Link href="/quem-somos">Quem Somos</Link></li>
         </ul>
       </div>
-      <div>
+      <div id="avisos">
         <h4 class="font-bold text-white mb-4">Ajuda</h4>
         <ul class="space-y-2">
-        <li>FAQ</li>
-        <li>Avisos</li>
+          <li><Link href="/codigo-conduta">Código de Conduta</Link></li>
+          <li><Link href="/faq" class="hover:underline">FAQ</Link></li>
         </ul>
       </div>
       <div id="contato">

@@ -86,8 +86,8 @@ onUnmounted(() => {
         <div>
           <h4 class="font-bold text-white mb-4">Ajuda</h4>
           <ul class="space-y-2">
-            <li>FAQ</li>
-            <li>Avisos</li>
+            <li><Link href="/codigo-conduta">Código de Conduta</Link></li>
+            <li><Link href="/faq" class="hover:underline">FAQ</Link></li>
           </ul>
         </div>
 

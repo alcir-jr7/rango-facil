@@ -37,6 +37,11 @@ Route::get('/cadastre-loja', function () {
     return Inertia::render('CadastreSuaLoja');
 })->name('cadastre-loja');
 
+Route::get('/faq', function () {
+    return Inertia::render('Faq');
+})->name('faq');
+
+
 /*
 |--------------------------------------------------------------------------
 | Dashboard (usuário logado)
