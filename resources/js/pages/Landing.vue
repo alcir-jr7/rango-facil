@@ -187,15 +187,15 @@
       <div id="sobre">
         <h4 class="font-bold text-white mb-4">Sobre</h4>
         <ul class="space-y-2">
-          <li><Link href="https://github.com/alcir-jr7/rango-facil.git">Projeto</Link></li>
-          <li><Link href="/privacidade">Privacidade</Link></li>
-          <li><Link href="/quem-somos">Quem Somos</Link></li>
+          <li><Link href="https://github.com/alcir-jr7/rango-facil.git" class="hover:underline">Projeto</Link></li>
+          <li><Link href="/privacidade" class="hover:underline">Privacidade</Link></li>
+          <li><Link href="/quem-somos" class="hover:underline">Quem Somos</Link></li>
         </ul>
       </div>
       <div id="avisos">
         <h4 class="font-bold text-white mb-4">Ajuda</h4>
         <ul class="space-y-2">
-          <li><Link href="/codigo-conduta">Código de Conduta</Link></li>
+          <li><Link href="/codigo-conduta" class="hover:underline">Código de Conduta</Link></li>
           <li><Link href="/faq" class="hover:underline">FAQ</Link></li>
         </ul>
       </div>

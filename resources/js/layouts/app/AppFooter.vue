@@ -48,8 +48,14 @@ onUnmounted(() => {
         ></i>
     </button>
 
-
-  <transition name="slide-up">
+  <transition 
+    enter-active-class="transition transform duration-300 ease-out"
+    enter-from-class="translate-y-full opacity-0"
+    enter-to-class="translate-y-0 opacity-100"
+    leave-active-class="transition transform duration-300 ease-in"
+    leave-from-class="translate-y-0 opacity-100"
+    leave-to-class="translate-y-full opacity-0"
+  >
     <footer
       v-show="isOpen"
       class="fixed bottom-0 left-0 w-full
@@ -74,19 +80,19 @@ onUnmounted(() => {
           <h4 class="font-bold text-white mb-4">Sobre</h4>
           <ul class="space-y-2">
             <li>
-              <Link href="https://github.com/alcir-jr7/rango-facil.git">
+              <Link href="https://github.com/alcir-jr7/rango-facil.git" class="hover:underline">
                 Projeto
               </Link>
             </li>
-            <li><Link href="/privacidade">Privacidade</Link></li>
-            <li><Link href="/quem-somos">Quem Somos</Link></li>
+            <li><Link href="/privacidade" class="hover:underline">Privacidade</Link></li>
+            <li><Link href="/quem-somos" class="hover:underline">Quem Somos</Link></li>
           </ul>
         </div>
 
         <div>
           <h4 class="font-bold text-white mb-4">Ajuda</h4>
           <ul class="space-y-2">
-            <li><Link href="/codigo-conduta">Código de Conduta</Link></li>
+            <li><Link href="/codigo-conduta" class="hover:underline">Código de Conduta</Link></li>
             <li><Link href="/faq" class="hover:underline">FAQ</Link></li>
           </ul>
         </div>
@@ -123,15 +129,3 @@ onUnmounted(() => {
   </transition>
 </template>
 
-<style scoped>
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.slide-up-enter-from,
-.slide-up-leave-to {
-  transform: translateY(100%);
-  opacity: 0;
-}
-</style>
