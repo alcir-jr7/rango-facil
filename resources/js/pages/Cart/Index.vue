@@ -101,7 +101,7 @@ const formatCurrency = (value: number) =>
         <!-- BOTÃO FECHAR PEDIDO -->
         <div class="mt-6 flex justify-center">
           <Link
-            href="/checkout"
+            href="/orders/create"
             class="bg-orange-500 text-white px-8 py-3 rounded-lg
                    font-semibold hover:opacity-90 transition"
           >
