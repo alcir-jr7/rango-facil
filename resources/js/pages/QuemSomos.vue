@@ -54,7 +54,7 @@
       image: '/devs/rui.png',
       social: {
         github: 'https://github.com/rui827',
-        linkedin: '#',
+        linkedin: 'https://www.linkedin.com/in/rui-barbosa-6aa6481b7/',
         instagram: 'https://www.instagram.com/ruii.barbosa/'
       }
     },

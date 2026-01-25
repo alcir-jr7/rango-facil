@@ -79,12 +79,9 @@ onUnmounted(() => {
         <div>
           <h4 class="font-bold text-white mb-4">Sobre</h4>
           <ul class="space-y-2">
-            <li>
-              <Link href="https://github.com/alcir-jr7/rango-facil.git" class="hover:underline">
-                Projeto
-              </Link>
-            </li>
-            <li><Link href="/privacidade" class="hover:underline">Privacidade</Link></li>
+            <li><a href="https://github.com/alcir-jr7/rango-facil" target="_blank"
+              rel="noopener noreferrer" class="hover:underline">Sobre o Projeto</a></li>
+            <li><Link href="/privacidade" class="hover:underline">Política de Privacidade</Link></li>
             <li><Link href="/quem-somos" class="hover:underline">Quem Somos</Link></li>
           </ul>
         </div>
@@ -93,7 +90,7 @@ onUnmounted(() => {
           <h4 class="font-bold text-white mb-4">Ajuda</h4>
           <ul class="space-y-2">
             <li><Link href="/codigo-conduta" class="hover:underline">Código de Conduta</Link></li>
-            <li><Link href="/faq" class="hover:underline">FAQ</Link></li>
+            <li><Link href="/faq" class="hover:underline">Perguntas Frequentes</Link></li>
           </ul>
         </div>
 
@@ -124,6 +121,9 @@ onUnmounted(() => {
             </a>
           </div>
         </div>
+      </div>
+      <div class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-orange-100 text-center text-sm text-white">
+        <p>© 2026 Rango Fácil. Todos os direitos reservados.</p>
       </div>
     </footer>
   </transition>
