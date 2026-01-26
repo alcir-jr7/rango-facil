@@ -136,6 +136,19 @@ Route::post('/cart/decrease/{product}', [CartController::class, 'decrease'])->na
 Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
 Route::patch('/cart/update/{product}', [CartController::class, 'update'])->name('cart.update');
 
-Route::get('/orders/create', function () {
-    return inertia('Orders/Create');
-})->middleware('auth')->name('orders.create');
+Route::get('/orders/create', [OrderController::class, 'create'])
+    ->middleware('auth')
+    ->name('orders.create');
+
+Route::post('/orders/checkout', [OrderController::class, 'checkout'])
+    ->middleware('auth')
+    ->name('orders.checkout');
+
+Route::get('/orders/review', [OrderController::class, 'review'])
+->middleware('auth')
+->name('orders.review');
+
+Route::post('/orders/pay', [OrderController::class, 'pay'])
+->middleware('auth')
+->name('orders.pay');
+    

@@ -9,6 +9,40 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    // TELA 1
+    public function create()
+    {
+        $user = auth()->user();
+
+        return inertia('Orders/Create', [
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone_number' => $user->phone_number ?? '',
+            ],
+        ]);
+    }
+
+    // RECEBE DADOS DO FORM
+    public function checkout(Request $request)
+    {
+        $request->validate([
+            'cpf' => ['required', 'string', 'min:11'],
+            'payment_method' => ['required', 'in:pix,card'],
+        ]);
+
+        // Por enquanto só guardamos em sessão
+        session([
+            'checkout' => [
+                'cpf' => $request->cpf,
+                'payment_method' => $request->payment_method,
+            ],
+        ]);
+
+        // Próxima tela (que criaremos depois)
+        return redirect()->route('orders.review');
+    }
+
     public function store(Request $request)
     {
         $user = auth()->user();
@@ -63,5 +97,43 @@ class OrderController extends Controller
 
             return back()->with('error', 'Erro ao finalizar pedido');
         }
+    }
+
+    public function review()
+    {
+    $checkout = session('checkout');
+
+
+    if (!$checkout) {
+    return redirect()->route('orders.create');
+    }
+
+
+    return inertia('Orders/Review', [
+    'payment_method' => $checkout['payment_method'],
+    'cpf' => $checkout['cpf'],
+    ]);
+    }
+
+
+    public function pay(Request $request)
+    {
+    $checkout = session('checkout');
+
+
+    if (!$checkout) {
+    return redirect()->route('orders.create');
+    }
+
+
+    if ($checkout['payment_method'] === 'card') {
+    $request->validate([
+    'card_number' => 'required|min:16',
+    'card_name' => 'required|string',
+    'card_cvc' => 'required|min:3',
+    'card_expiry' => 'required',
+    ]);
+    }
+    return app(OrderController::class)->store($request);
     }
 }

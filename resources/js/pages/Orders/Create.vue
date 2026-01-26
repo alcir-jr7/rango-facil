@@ -1,89 +1,130 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
+
+const props = defineProps<{
+  user: {
+    name: string
+    email: string
+    phone_number: string
+  }
+}>()
+
+const form = useForm({
+  name: props.user.name,
+  email: props.user.email,
+  phone_number: props.user.phone_number,
+  cpf: '',
+  payment_method: 'pix',
+})
+
+function submit() {
+  form.post('/orders/checkout')
+}
 </script>
 
 <template>
-  <Head title="Confirmar Pedido" />
+  <Head title="Finalizar pedido" />
 
   <AppLayout>
-    <div class="max-w-4xl mx-auto px-6 py-12">
-      <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">
-          Confirmar Pedido
-        </h1>
-        <p class="text-gray-600">
-          Revise as informações antes de finalizar
-        </p>
-      </div>
+    <div class="max-w-3xl mx-auto px-6 py-10">
+      <h1 class="text-2xl font-bold mb-6">
+        Finalizar pedido
+      </h1>
 
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <!-- Header -->
-        <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
-          <h2 class="text-lg font-semibold text-gray-900">
-            Resumo do Pedido
-          </h2>
+      <form
+        @submit.prevent="submit"
+        class="bg-white rounded-xl shadow p-6 space-y-5"
+      >
+        <!-- NOME -->
+        <div>
+          <label class="block text-sm font-medium">Nome</label>
+          <input
+            v-model="form.name"
+            disabled
+            class="w-full mt-1 rounded-lg border-gray-300 bg-gray-100"
+          />
         </div>
 
-        <!-- Content -->
-        <div class="px-6 py-8 space-y-6">
-          <div class="flex items-start gap-4">
-            <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div class="flex-1">
-              <h3 class="font-medium text-gray-900 mb-1">
-                Pronto para finalizar?
-              </h3>
-              <p class="text-gray-600 leading-relaxed">
-                Ao confirmar, seu pedido será processado com todos os itens atualmente no carrinho. 
-                Você receberá uma confirmação por e-mail com os detalhes da sua compra.
-              </p>
-            </div>
-          </div>
+        <!-- EMAIL -->
+        <div>
+          <label class="block text-sm font-medium">Email</label>
+          <input
+            v-model="form.email"
+            disabled
+            class="w-full mt-1 rounded-lg border-gray-300 bg-gray-100"
+          />
+        </div>
 
-          <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 flex items-start gap-3">
-            <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <div>
-              <p class="text-sm font-medium text-amber-900 mb-1">
-                Importante
-              </p>
-              <p class="text-sm text-amber-800">
-                Após a confirmação, o carrinho será esvaziado automaticamente e não será possível desfazer esta ação.
-              </p>
-            </div>
+        <!-- TELEFONE -->
+        <div>
+          <label class="block text-sm font-medium">Telefone</label>
+          <input
+            v-model="form.phone_number"
+            type="text"
+            class="w-full mt-1 rounded-lg border-gray-300"
+          />
+        </div>
+
+        <!-- CPF -->
+        <div>
+          <label class="block text-sm font-medium">CPF</label>
+          <input
+            v-model="form.cpf"
+            type="text"
+            placeholder="Digite seu CPF"
+            class="w-full mt-1 rounded-lg border-gray-300"
+          />
+          <span v-if="form.errors.cpf" class="text-sm text-red-500">
+            {{ form.errors.cpf }}
+          </span>
+        </div>
+
+        <!-- FORMA DE PAGAMENTO -->
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            Forma de pagamento
+          </label>
+
+          <div class="flex gap-6">
+            <label class="flex items-center gap-2">
+              <input
+                type="radio"
+                value="pix"
+                v-model="form.payment_method"
+              />
+              PIX
+            </label>
+
+            <label class="flex items-center gap-2">
+              <input
+                type="radio"
+                value="card"
+                v-model="form.payment_method"
+              />
+              Cartão
+            </label>
           </div>
         </div>
 
-        <!-- Actions -->
-        <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex items-center justify-between">
-          <Link
+        <!-- BOTÕES -->
+        <div class="flex justify-end gap-4 pt-4">
+          <a
             href="/cart"
-            class="px-6 py-2.5 rounded-lg border border-gray-300
-                   text-gray-700 font-medium hover:bg-white hover:border-gray-400 
-                   transition-all duration-200 focus:outline-none focus:ring-2 
-                   focus:ring-gray-400 focus:ring-offset-2"
+            class="px-5 py-2 rounded-lg border text-gray-700"
           >
-            ← Voltar ao Carrinho
-          </Link>
+            Voltar
+          </a>
 
-          <Link
-            href="/orders"
-            method="post"
-            as="button"
-            class="px-8 py-2.5 rounded-lg bg-green-600 text-white
-                   font-semibold hover:bg-green-700 shadow-sm hover:shadow
-                   transition-all duration-200 focus:outline-none focus:ring-2 
-                   focus:ring-green-500 focus:ring-offset-2"
+          <button
+            type="submit"
+            class="px-6 py-2 rounded-lg bg-orange-500 text-white
+                   font-semibold hover:opacity-90 transition"
           >
-            Confirmar Pedido
-          </Link>
+            Continuar
+          </button>
         </div>
-      </div>
+      </form>
     </div>
   </AppLayout>
 </template>
