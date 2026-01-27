@@ -6,7 +6,7 @@ import { ref } from 'vue'
 const props = defineProps<{
   payment_method: 'pix' | 'card'
   cpf: string
-  amount?: number
+  total: number
 }>()
 
 const form = useForm({
@@ -45,6 +45,13 @@ function formatExpiry(e: Event) {
   }
   form.card_expiry = value
 }
+
+function formatCurrency(value: number) {
+  return value.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  })
+}
 </script>
 
 <template>
@@ -69,6 +76,14 @@ function formatExpiry(e: Event) {
         </div>
 
         <div class="p-8">
+          <div class="flex justify-between items-center mb-6 bg-gray-50 border rounded-lg p-4">
+            <span class="text-sm text-gray-600">
+              Total a pagar
+            </span>
+            <span class="text-lg font-bold text-gray-900">
+              {{ formatCurrency(props.total) }}
+            </span>
+          </div>
           <div class="bg-orange-50 rounded-xl p-6 mb-6 text-center">
             <p class="text-sm text-orange-700 mb-4">
               Escaneie o QR Code com o app do seu banco
@@ -118,6 +133,14 @@ function formatExpiry(e: Event) {
         </div>
 
         <div class="p-8 space-y-5">
+          <div class="flex justify-between items-center mb-6 bg-gray-50 border rounded-lg p-4">
+            <span class="text-sm text-gray-600">
+              Total a pagar
+            </span>
+            <span class="text-lg font-bold text-gray-900">
+              {{ formatCurrency(props.total) }}
+            </span>
+          </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">
               Número do cartão

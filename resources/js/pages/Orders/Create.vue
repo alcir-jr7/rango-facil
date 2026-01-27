@@ -8,6 +8,7 @@ const props = defineProps<{
     email: string
     phone_number: string
   }
+  total: number
 }>()
 
 const form = useForm({
@@ -20,6 +21,29 @@ const form = useForm({
 
 function submit() {
   form.post('/orders/checkout')
+}
+
+function formatCurrency(value: number) {
+  return value.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  })
+}
+
+function maskCPF(e: Event) {
+  const input = e.target as HTMLInputElement
+
+  let value = input.value.replace(/\D/g, '')
+  value = value.slice(0, 11)
+
+  value = value.replace(/^(\d{3})(\d)/, '$1.$2')
+  value = value.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3')
+  value = value.replace(
+    /^(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})$/,
+    '$1.$2.$3-$4'
+  )
+  input.value = value
+  form.cpf = value
 }
 </script>
 
@@ -70,9 +94,10 @@ function submit() {
         <div>
           <label class="block text-sm font-medium">CPF</label>
           <input
-            v-model="form.cpf"
             type="text"
-            placeholder="Digite seu CPF"
+            placeholder="000.000.000-00"
+            :value="form.cpf"
+            @input="maskCPF"
             class="w-full mt-1 rounded-lg border-gray-300"
           />
           <span v-if="form.errors.cpf" class="text-sm text-red-500">
@@ -106,7 +131,14 @@ function submit() {
             </label>
           </div>
         </div>
-
+        <div class="flex justify-between items-center mb-6 bg-gray-50 border rounded-lg p-4">
+          <span class="text-sm text-gray-600">
+            Total a pagar
+          </span>
+          <span class="text-lg font-bold text-gray-900">
+            {{ formatCurrency(props.total) }}
+          </span>
+        </div>
         <!-- BOTÕES -->
         <div class="flex justify-end gap-4 pt-4">
           <a
