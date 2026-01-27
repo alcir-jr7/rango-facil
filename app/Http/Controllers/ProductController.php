@@ -80,6 +80,7 @@ class ProductController extends Controller
             ],
 
             'store_id' => $product->store_id,
+            'categories' => ProductCategory::all(),
         ]);
     }
 
@@ -88,7 +89,7 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'store_id'    => 'required|integer',
-            'category_id' => 'required|exists:product_categories,id',
+            'category_id' => 'sometimes|exists:product_categories,id',
             'name'  => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
