@@ -45,6 +45,7 @@ export interface User {
 export interface Store {
     id: number;
     name: string;
+    image?: string | null;
     is_open: boolean;
     auto_confirm_orders: boolean;
     owner_id: number;
