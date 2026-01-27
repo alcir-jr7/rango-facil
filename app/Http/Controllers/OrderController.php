@@ -111,21 +111,24 @@ class OrderController extends Controller
 
     public function pay(Request $request)
     {
-    $checkout = session('checkout');
+        $checkout = session('checkout');
 
-    if (!$checkout) {
-        return redirect()->route('orders.create');
-    }
+        if (!$checkout) {
+            return redirect()->route('orders.create');
+        }
 
-    if ($checkout['payment_method'] === 'card') {
-        $request->validate([
-            'card_number' => 'required|min:16',
-            'card_name' => 'required|string',
-            'card_cvc' => 'required|min:3',
-            'card_expiry' => 'required',
-        ]);
-    }
-        return app(OrderController::class)->store($request);
+        if ($checkout['payment_method'] === 'card') {
+            $request->validate([
+                'card_number' => 'required|min:16',
+                'card_name' => 'required|string',
+                'card_cvc' => 'required|min:3',
+                'card_expiry' => 'required',
+            ]);
+        }
+
+        $this->store($request);
+
+        return redirect()->route('orders.success');
     }
 
     private function getCartTotal($user)

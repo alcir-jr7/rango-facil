@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue'
-import { Head, useForm } from '@inertiajs/vue3'
+import { Head, useForm, Link } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
 const props = defineProps<{
@@ -112,6 +112,7 @@ function formatCurrency(value: number) {
             >
               Já realizei o pagamento
             </button>
+
           </div>
 
           <p class="text-xs text-gray-500 mt-4 text-center">

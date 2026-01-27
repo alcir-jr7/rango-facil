@@ -145,10 +145,16 @@ Route::post('/orders/checkout', [OrderController::class, 'checkout'])
     ->name('orders.checkout');
 
 Route::get('/orders/review', [OrderController::class, 'review'])
-->middleware('auth')
-->name('orders.review');
+    ->middleware('auth')
+    ->name('orders.review');
 
 Route::post('/orders/pay', [OrderController::class, 'pay'])
-->middleware('auth')
-->name('orders.pay');
-    
+    ->middleware('auth')
+    ->name('orders.pay');
+
+Route::get('/orders/success', function () {
+    return inertia('Orders/Success');
+})
+    ->middleware('auth')
+    ->name('orders.success');
+
