@@ -77,39 +77,34 @@ class ProductController extends Controller
         ]);
     }
 
-
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
             'store_id'    => 'required|integer',
             'category_id' => 'sometimes|exists:product_categories,id',
-            'name'  => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
+            'price'       => 'required|numeric|min:0',
             'min_price'   => 'nullable|numeric|min:0',
             'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        // Caso o usuário envie uma nova foto
         if ($request->hasFile('image')) {
-
-            // Apaga a foto antiga se existir
             if ($product->image_path && Storage::disk('public')->exists($product->image_path)) {
                 Storage::disk('public')->delete($product->image_path);
             }
 
-            // Salva a nova foto
-            $validated['image_path'] = $request->file('image')
-                    ->store('products', 'public');
+            $validated['image_path'] = $request->file('image')->store('products', 'public');
         }
 
         $product->update($validated);
 
-
-        return redirect()->route('products.index', ['store_id' => $product->store_id])->with('success', 'Product updated successfully!');
+        return redirect()
+            ->route('stores.show', $product->store_id)
+            ->with('success', 'Produto atualizado com sucesso!');
     }
 
-        public function destroy(Product $product)
+    public function destroy(Product $product)
     {
         $product->delete();
 
