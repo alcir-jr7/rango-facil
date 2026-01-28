@@ -8,6 +8,7 @@ use App\Models\Store;
 use App\Http\Requests\StoreStoreRequest;
 use App\Http\Requests\UpdateStoreRequest;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
 
 class StoreController extends Controller
 {
@@ -79,18 +80,32 @@ class StoreController extends Controller
         ]);
     }
 
-    public function edit(Store $store)
+            public function edit(Store $store)
     {
-        $this->authorizeStore($store);
         return Inertia::render('stores/edit', compact('store'));
     }
 
     public function update(UpdateStoreRequest $request, Store $store)
     {
         $this->authorizeStore($store);
-        $store->update($request->all());
 
-        return redirect()->route('stores.index')
+        $data = $request->validated();
+
+        // Se uma nova imagem foi enviada
+        if ($request->hasFile('image')) {
+            // Deleta a imagem antiga se existir
+            if ($store->image) {
+                Storage::disk('public')->delete($store->image);
+            }
+            
+            // Faz upload da nova imagem
+            $data['image'] = $request->file('image')->store('stores', 'public');
+        }
+
+        $store->update($data);
+
+        return redirect()
+            ->route('stores.show', $store->id)
             ->with('success', 'Loja atualizada com sucesso!');
     }
 
