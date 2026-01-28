@@ -116,17 +116,11 @@ class ProductController extends Controller
         return redirect()->route('products.index', ['store_id' => $product->store_id])->with('success', 'Product updated successfully!');
     }
 
-
-    public function destroy(Product $product)
+        public function destroy(Product $product)
     {
-        $store_id = $product->store_id;
-
-
         $product->delete();
 
-
-        return redirect()->route('products.index', [
-            'store_id' => $store_id
-        ]);
+        return back();
     }
+
 }
