@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, usePage, Link } from '@inertiajs/vue3';
 
 type Store = {
     id: number;
@@ -15,7 +15,7 @@ const page = usePage();
  * Espera receber do backend:
  * favorites: Store[]
  */
-const favorites = page.props.favorites as Store[] || [];
+const favorites = (page.props.favorites as Store[]) || [];
 </script>
 
 <template>
@@ -35,13 +35,14 @@ const favorites = page.props.favorites as Store[] || [];
                 v-else
                 class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"
             >
-                <div
+                <Link
                     v-for="store in favorites"
                     :key="store.id"
-                    class="flex flex-col items-center text-center"
+                    :href="`/stores/${store.id}`"
+                    class="flex flex-col items-center text-center hover:opacity-80 transition"
                 >
                     <!-- Logo -->
-                     <div class="w-32 h-32 rounded-full border-4 border-orange-400 overflow-hidden bg-white shadow">
+                    <div class="w-32 h-32 rounded-full border-4 border-orange-400 overflow-hidden bg-white shadow">
                         <img
                             v-if="store.image"
                             :src="`/storage/${store.image}`"
@@ -54,6 +55,7 @@ const favorites = page.props.favorites as Store[] || [];
                             {{ store.name.charAt(0) }}
                         </div>
                     </div>
+
                     <!-- Nome -->
                     <span class="mt-2 font-medium">
                         {{ store.name }}
@@ -66,7 +68,7 @@ const favorites = page.props.favorites as Store[] || [];
                     >
                         {{ store.is_open ? 'Aberta' : 'Fechada' }}
                     </span>
-                </div>
+                </Link>
             </div>
         </div>
     </AppLayout>
