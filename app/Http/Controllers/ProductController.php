@@ -35,7 +35,6 @@ class ProductController extends Controller
         ]);
     }
 
-
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -48,24 +47,18 @@ class ProductController extends Controller
             'min_price'   => 'nullable|numeric|min:0',
         ]);
 
-
-        // Upload da imagem
         if ($request->hasFile('image')) {
             $validated['image_path'] = $request->file('image')->store('products', 'public');
         }
 
-
-        // Remove o campo 'image' pois salvamos como 'image_path'
         unset($validated['image']);
 
+        $product = Product::create($validated);
 
-        Product::create($validated);
-
-
-        return redirect()->route('products.index', ['store_id' => $validated['store_id']])
+        return redirect()
+            ->route('stores.show', $product->store_id)
             ->with('success', 'Produto criado com sucesso!');
     }
-
 
     public function edit(Product $product)
     {
