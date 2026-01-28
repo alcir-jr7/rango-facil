@@ -179,7 +179,7 @@ const getImagePath = (product: Product) => {
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               ]"
             >
-              Meus produtos
+              Produtos
             </button>
           </div>
         </div>
@@ -223,7 +223,7 @@ const getImagePath = (product: Product) => {
 
         <!-- Meus Produtos -->
         <div>
-          <h2 class="text-2xl font-bold text-gray-800 mb-6">Meus Produtos</h2>
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Produtos</h2>
 
           <div v-if="allProducts.length === 0" class="text-center py-16">
             <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
