@@ -40,9 +40,9 @@ function maskPhone(e: Event) {
             v-bind="RegisteredUserController.store.form()"
             :reset-on-success="['password', 'password_confirmation']"
             v-slot="{ errors, processing }"
-            class="flex flex-col gap-6"
+            class="flex flex-col gap-2"
         >
-                <div class="grid gap-6 w-full max-w-lg mx-auto">
+                <div class="grid gap-3 w-full max-w-md mx-auto">
 
                 <!-- Name -->
                 <div class="grid gap-2">
@@ -126,7 +126,7 @@ function maskPhone(e: Event) {
                 <Button
                     type="submit"
                     variant="orange"
-                    class="mt-4 w-40 mx-auto"       
+                    class="mt-1 w-40 mx-auto"       
                     :tabindex="6"
                     :disabled="processing"
                     data-test="register-user-button"
