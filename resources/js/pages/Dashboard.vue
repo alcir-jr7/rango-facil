@@ -2,6 +2,7 @@
 import AppLayout from '@/layouts/AppLayout.vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { ref, onMounted, onUnmounted } from 'vue'
+import axios from 'axios'
 
 function updateCartCount() {
   router.reload({
@@ -72,6 +73,20 @@ const stopScroll = () => {
 
 onMounted(startScroll)
 onUnmounted(stopScroll)
+
+const comprarAgora = async (productId: number) => {
+  try {
+    const response = await axios.post('/pagamento/criar', {
+      product_id: productId,
+    })
+
+    // redireciona para o Mercado Pago
+    window.location.href = response.data.init_point
+  } catch (error: any) {
+  console.log(error.response)
+  alert(error.response?.status + ' - ' + error.response?.data?.message)
+  }
+}
 </script>
 
 <template>
@@ -198,9 +213,12 @@ onUnmounted(stopScroll)
               </p>
 
               <div class="flex items-center justify-center gap-5">
-                <button class="w-full bg-white text-orange-500 py-2 rounded-xl hover:opacity-80 transition">
-                  Comprar
-                </button>
+                <button
+                  @click="comprarAgora(p.id)"
+                  class="w-full bg-white text-orange-500 py-2 rounded-xl hover:opacity-80 transition"
+                  >
+                    Comprar
+                  </button>
                 <Link
                   :href="`/cart/add/${p.id}`"
                   method="post"
