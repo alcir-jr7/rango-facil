@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { User, ShoppingCart, Star } from 'lucide-vue-next';
+import { User, ShoppingCart, Star, Bell } from 'lucide-vue-next';
 import { Link, usePage } from '@inertiajs/vue3';
 import type { BreadcrumbItemType } from '@/types';
 
@@ -22,50 +22,50 @@ withDefaults(
 
 <template>
     <header
-        class="flex h-16 shrink-0 items-center justify-between border-b border-sidebar-border/70 px-6 md:px-4 bg-orange-500"
+        class="flex h-20 shrink-0 items-center justify-between border-b px-8 bg-white border-gray-100"
     >
         <SidebarTrigger ref="trigger" class="hidden" />
 
-        <div class="flex items-center gap-2">
-
+        <div class="flex items-center gap-4">
             <img 
                 src="/rangofacil.png" 
-                class="h-15 cursor-pointer" 
-                alt="Logo RangoFácil"
+                class="h-12 cursor-pointer" 
+                alt="Logo Rango Fácil"
                 @click="trigger?.$el?.click()"  
             />
-
-            <h1 class="text-white font-bold text-lg">
-                RangoFácil
-            </h1>
+            <div class="hidden md:block">
+                <h1 class="text-2xl font-bold text-gray-800">
+                    Rango Fácil
+                </h1>
+                <p class="text-sm text-gray-500">
+                    Olá, {{ $page.props.auth.user.name.split(' ')[0] }}
+                </p>
+            </div>
         </div>
 
-        <div class="flex items-center gap-4 text-white">
-
-            <span class="font-medium">
-                {{ $page.props.auth.user.name.split(' ')[0] }}
-            </span>
-
+        <div class="flex items-center gap-6 text-black">
             <Link href="/favorites" class="cursor-pointer z-50">
-                <Star class="w-6 h-6 hover:text-yellow-300" />
+                <Star class="w-6 h-6 hover:text-orange-500" />
             </Link>
 
-            <Link href="/settings/profile" class="cursor-pointer z-50">
-                <User class="w-6 h-6" />
-            </Link>
-
-            <Link href="/cart" class="cursor-pointer z-50">
-                <ShoppingCart class="w-6 h-6" />
+            <Link href="/cart" class="relative cursor-pointer z-50 p-2">
+                <ShoppingCart class="w-6 h-6 hover:text-orange-500"/>
                 <span
                     v-if="cartCount > 0"
-                    class="absolute top-1 right-1
-                           bg-red-600 text-white
+                    class="absolute -top-1 -right-1
+                           bg-orange-500 text-white
                            text-xs font-bold
-                           w-5 h-5 rounded-full
-                           flex items-center justify-center"
+                           min-w-[20px] h-5 rounded-full
+                           flex items-center justify-center px-1.5"
                     >
                     {{ cartCount }}
                 </span>
+            </Link>
+
+            <Link href="/settings/profile" class="flex items-center gap-3 p-2">
+                <div class="w-10 h-10 bg-orange-500 hover:bg-orange-600 rounded-full flex items-center justify-center">
+                    <User class="w-6 h-6 text-white"/>
+                </div>
             </Link>
         </div>
     </header>
