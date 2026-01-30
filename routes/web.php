@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoriteStoreController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -158,3 +159,5 @@ Route::get('/orders/success', function () {
     ->middleware('auth')
     ->name('orders.success');
 
+/* Pagamento*/
+Route::post('/pagamento/criar', [PaymentController::class, 'criarPagamento']);
