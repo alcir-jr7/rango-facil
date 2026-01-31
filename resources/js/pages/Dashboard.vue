@@ -107,75 +107,89 @@ const comprarAgora = async (productId: number) => {
         </div>
       </section>
 
-      <!-- 🏪 TODAS AS LOJAS -->
+      <!--TODAS AS LOJAS -->
       <section class="max-w-7xl mx-auto px-6 py-6">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-2xl font-bold text-gray-800">
-            Lojas
+            Lojas Parceiras
           </h2>
+          <Link 
+            href="/stores"
+            class="text-orange-500 hover:text-orange-600 font-semibold text-sm flex items-center gap-1 transition"
+          >
+            Ver todas
+            <i class="bi bi-arrow-right"></i>
+          </Link>
         </div>
 
-        <div class="flex gap-4 overflow-x-auto pb-4">
+        <div class="flex gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div
             v-for="s in stores.slice(0, 6)"
             :key="s.id"
-            class="flex-shrink-0"
+            class="flex-shrink-0 w-40"
           >
-            <!-- CARD CLICÁVEL -->
-            <Link
-              :href="`/stores/${s.id}`"
-              class="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl hover:shadow-md transition-all group"
-            >
-              <div class="w-16 h-16 rounded-2xl bg-orange-100 flex items-center justify-center group-hover:bg-orange-200 transition-colors">
-                <img
-                  v-if="s.image"
-                  :src="`/storage/${s.image}`"
-                  class="w-10 h-10 object-cover rounded-xl"
-                />
-                <div
-                  v-else
-                  class="text-orange-500 text-2xl font-bold"
-                >
-                  {{ s.name.charAt(0) }}
-                </div>
+            <!-- CARD PRINCIPAL -->
+            <div class="relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group">
+              
+              <!-- Badge de Status (canto superior direito) -->
+              <div class="absolute top-3 right-3 z-10">
+                <div 
+                  class="w-3 h-3 rounded-full shadow-lg ring-2 ring-white"
+                  :class="s.is_open ? 'bg-green-500' : 'bg-red-500'"
+                  :title="s.is_open ? 'Aberta' : 'Fechada'"
+                ></div>
               </div>
-              <span class="text-sm font-medium text-gray-700 text-center">
-                {{ s.name }}
-              </span>
 
-              <span
-                class="text-sm font-bold"
-                :class="s.is_open ? 'text-green-600' : 'text-red-600'"
+              <!-- Botão Favorito (canto superior esquerdo) -->
+              <Link
+                :href="`/stores/${s.id}/favorite`"
+                :method="s.is_favorited ? 'delete' : 'post'"
+                as="button"
+                preserve-scroll
+                class="absolute top-3 left-3 z-10 transition-transform hover:scale-110"
               >
-                {{ s.is_open ? 'Aberta' : 'Fechada' }}
-              </span>
-            </Link>
+                <i 
+                  class="text-xl drop-shadow-md"
+                  :class="s.is_favorited 
+                    ? 'bi bi-star-fill text-orange-500' 
+                    : 'bi bi-star text-gray-400 hover:text-orange-500'"
+                ></i>
+              </Link>
 
-            <!-- FAVORITO (fora do link) -->
-            <Link
-              v-if="!s.is_favorited"
-              :href="`/stores/${s.id}/favorite`"
-              method="post"
-              as="button"
-              preserve-scroll
-              class="mt-2 px-3 py-1 rounded-lg bg-orange-100 text-orange-600 font-semibold"
-            >
-              ☆ Favoritar
-            </Link>
+              <!-- Link para a loja -->
+              <Link
+                :href="`/stores/${s.id}`"
+                class="block p-5"
+              >
+                <!-- Logo da Loja -->
+                <div class="flex justify-center mb-4">
+                  <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-md">
+                    <img
+                      v-if="s.image"
+                      :src="`/storage/${s.image}`"
+                      :alt="s.name"
+                      class="w-16 h-16 object-cover rounded-xl"
+                    />
+                    <div
+                      v-else
+                      class="text-orange-500 text-3xl font-bold"
+                    >
+                      {{ s.name.charAt(0) }}
+                    </div>
+                  </div>
+                </div>
 
-            <Link
-              v-else
-              :href="`/stores/${s.id}/favorite`"
-              method="delete"
-              as="button"
-              preserve-scroll
-              class="mt-2 px-3 py-1 rounded-lg bg-orange-500 text-white font-semibold"
-            >
-              ★ Favorito
-            </Link>
+                <!-- Nome da Loja -->
+                <h3 class="text-sm font-bold text-gray-800 text-center line-clamp-2 min-h-[40px] mb-2">
+                  {{ s.name }} -
+                  <i class="bi bi-shop text-orange-500"></i>
+                </h3>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
+
       <!-- 🛒 PRODUTOS -->
       <section class="max-w-7xl mx-auto px-6 py-6">
         <div class="flex items-center justify-between mb-6">
