@@ -1,23 +1,22 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import { SidebarTrigger } from '@/components/ui/sidebar';
-import { User, ShoppingCart, Star, Bell } from 'lucide-vue-next';
-import { Link, usePage } from '@inertiajs/vue3';
-import type { BreadcrumbItemType } from '@/types';
+    import { ref } from 'vue';
+    import { SidebarTrigger } from '@/components/ui/sidebar';
+    import { User, ShoppingCart, Star, Store } from 'lucide-vue-next';
+    import { Link, usePage } from '@inertiajs/vue3';
+    import type { BreadcrumbItemType } from '@/types';
 
-const page = usePage()
-const cartCount = page.props.cartCount as number
-const trigger = ref();
+    const page = usePage()
+    const cartCount = page.props.cartCount as number
+    const trigger = ref();
 
-withDefaults(
-    defineProps<{
-        breadcrumbs?: BreadcrumbItemType[];
-    }>(),
-    {
-        breadcrumbs: () => [],
-    },
-);
+    withDefaults(
+        defineProps<{
+            breadcrumbs?: BreadcrumbItemType[];
+        }>(),
+        {
+            breadcrumbs: () => [],
+        },
+    );
 </script>
 
 <template>
@@ -44,6 +43,10 @@ withDefaults(
         </div>
 
         <div class="flex items-center gap-6 text-black">
+            <Link href="/stores" class="flex items-center gap-2 cursor-pointer z-50 hover:text-orange-500">
+                <Store class="w-6 h-6" />
+            </Link>
+
             <Link href="/favorites" class="cursor-pointer z-50">
                 <Star class="w-6 h-6 hover:text-orange-500" />
             </Link>
