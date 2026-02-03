@@ -1,27 +1,37 @@
 <script setup lang="ts">
-import StoreController, {
-    create,
-    index,
-} from '@/actions/App/Http/Controllers/StoreController';
-import InputError from '@/components/InputError.vue';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { Form, Head } from '@inertiajs/vue3';
+    import InputError from '@/components/InputError.vue';
+    import { Button } from '@/components/ui/button';
+    import { Checkbox } from '@/components/ui/checkbox';
+    import { Input } from '@/components/ui/input';
+    import { Label } from '@/components/ui/label';
+    import AppLayout from '@/layouts/AppLayout.vue';
+    import { type BreadcrumbItem } from '@/types';
+    import { useForm, Head } from '@inertiajs/vue3';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Stores',
-        href: index().url,
-    },
-    {
-        title: 'Criar loja',
-        href: create().url,
-    },
-];
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: 'Stores',
+            href: '/stores',
+        },
+        {
+            title: 'Criar loja',
+            href: '/stores/create',
+        },
+    ];
+
+
+    const form = useForm({
+    name: '',
+    image: null as File | null,
+    auto_confirm: false,
+    })
+
+    // Submit
+    const submit = () => {
+    form.post('/stores', {
+        forceFormData: true,
+    })
+    }
 </script>
 
 <template>
@@ -39,13 +49,7 @@ const breadcrumbs: BreadcrumbItem[] = [
             </div>
             
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sm:p-8">
-                <Form
-                    v-bind="StoreController.store.form()"
-                    enctype="multipart/form-data"
-                    v-slot="{ errors, processing }"
-                    class="space-y-6"
-                >
-                    <!-- Nome -->
+                <form @submit.prevent="submit" class="space-y-6">
                     <div>
                         <Label for="name" class="text-sm font-semibold text-gray-900">
                             Nome da Loja
@@ -53,13 +57,12 @@ const breadcrumbs: BreadcrumbItem[] = [
                         </Label>
                         <Input
                             id="name"
-                            name="name"
-                            type="text"
+                            v-model="form.name"
                             required
                             placeholder="Ex: Restaurante do João"
                             class="mt-2 h-11 border-gray-300 focus:border-orange-500 focus:ring-orange-500"
                         />
-                        <InputError :message="errors.name" class="mt-1.5" />
+                        <InputError :message="form.errors.name" class="mt-1.5" />
                     </div>
 
                     <!-- Imagem da loja -->
@@ -99,11 +102,22 @@ const breadcrumbs: BreadcrumbItem[] = [
                                         name="image"
                                         class="hidden"
                                         accept="image/*"
+                                        @input="form.image = ($event.target as HTMLInputElement).files?.[0] || null"
                                     />
                                 </label>
                             </div>
                         </div>
-                        <InputError :message="errors.image" class="mt-1.5" />
+                        <InputError :message="form.errors.image" class="mt-1.5" />
+                        <p v-if="form.image" class="mt-2 text-sm text-green-600 flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"
+                                />
+                            </svg>
+                            {{ form.image.name }}
+                        </p>
                     </div>
 
                     <!-- Auto Confirmar -->
@@ -123,18 +137,18 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <Button
                             type="button"
                             variant="outline"
-                            @click="$inertia.visit(index().url)"
+                            @click="$inertia.visit('/stores')"
                             class="px-6"
                         >
                             Cancelar
                         </Button>
                         <Button
                             type="submit"
-                            :disabled="processing"
+                            :disabled="form.processing"
                             class="px-8 bg-orange-600 hover:bg-orange-700 focus:ring-orange-500"
                         >
                             <svg
-                                v-if="processing"
+                                v-if="form.processing"
                                 class="animate-spin -ml-1 mr-2 h-4 w-4"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -154,10 +168,10 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                 />
                             </svg>
-                            {{ processing ? 'Criando...' : 'Criar Loja' }}
+                            {{ form.processing ? 'Criando...' : 'Criar Loja' }}
                         </Button>
                     </div>
-                </Form>
+                </form>
             </div>
         </div>
     </AppLayout>
