@@ -24,23 +24,25 @@
         class="flex h-20 shrink-0 items-center justify-between border-b px-8 bg-white border-gray-100"
     >
         <SidebarTrigger ref="trigger" class="hidden" />
-
-        <div class="flex items-center gap-4">
-            <img 
-                src="/rangofacil.png" 
-                class="h-12 cursor-pointer" 
-                alt="Logo Rango Fácil"
-                @click="trigger?.$el?.click()"  
-            />
-            <div class="hidden md:block">
-                <h1 class="text-2xl font-bold text-gray-800">
-                    Rango Fácil
-                </h1>
-                <p class="text-sm text-gray-500">
-                    Olá, {{ $page.props.auth.user.name.split(' ')[0] }}
-                </p>
+        
+        <Link href="/dashboard">
+            <div class="flex items-center gap-4">
+                <img 
+                    src="/rangofacil.png" 
+                    class="h-12 cursor-pointer" 
+                    alt="Logo Rango Fácil"
+                    @click="trigger?.$el?.click()"  
+                />
+                <div class="hidden md:block">
+                    <h1 class="text-2xl font-bold text-gray-800">
+                        Rango Fácil
+                    </h1>
+                    <p class="text-sm text-gray-500">
+                        Olá, {{ $page.props.auth.user.name.split(' ')[0] }}
+                    </p>
+                </div>
             </div>
-        </div>
+        </Link>
 
         <div class="flex items-center gap-6 text-black">
             <Link href="/stores" class="flex items-center gap-2 cursor-pointer z-50 hover:text-orange-500">
