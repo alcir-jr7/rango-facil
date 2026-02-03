@@ -29,13 +29,13 @@
         class="flex h-20 shrink-0 items-center justify-between border-b px-8 bg-white border-gray-100"
     >
         <SidebarTrigger ref="trigger" class="hidden" />
-    <button @click="goBack"
-        class="mr-4 flex items-center justify-center rounded-full p-2 hover:bg-orange-600 transition" aria-label="Voltar">
-        <ArrowLeft class="w-6 h-6 text-gray-700" />
-    </button>
+        <div class="flex items-center gap-3">
+            <button @click="goBack"
+                class="mr-4 flex items-center justify-center rounded-full p-2 hover:bg-orange-600 transition" aria-label="Voltar">
+                <ArrowLeft class="w-6 h-6 text-gray-700" />
+            </button>
 
-        <Link href="/dashboard">
-            <div class="flex items-center gap-4">
+            <Link href="/dashboard" class="flex items-center gap-4">
                 <img 
                     src="/rangofacil.png" 
                     class="h-12 cursor-pointer" 
@@ -50,8 +50,8 @@
                         Olá, {{ $page.props.auth.user.name.split(' ')[0] }}
                     </p>
                 </div>
-            </div>
-        </Link>
+            </Link>
+        </div>
 
         <div class="flex items-center gap-6 text-black">
             <Link href="/stores" class="flex items-center gap-2 cursor-pointer z-50 hover:text-orange-500">
