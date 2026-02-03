@@ -196,6 +196,13 @@ const comprarAgora = async (productId: number) => {
           <h2 class="text-2xl font-bold text-gray-800">
             Produtos
           </h2>
+          <Link 
+            href="/products"
+            class="text-orange-500 hover:text-orange-600 font-semibold text-sm flex items-center gap-1 transition"
+          >
+            Ver todos
+            <i class="bi bi-arrow-right"></i>
+          </Link>
         </div>
 
         <div

@@ -17,10 +17,15 @@ class ProductController extends Controller
     {
         $storeId = $request->query('store_id');
 
+        $products = Product::with('store')
+            ->when($storeId, function ($query) use ($storeId) {
+                $query->where('store_id', $storeId);
+            })->latest()->get();
 
         return Inertia::render('products/index', [
             'store_id' => $storeId,
-            'products' => Product::where('store_id', $storeId)->get(),
+            'products' => $products,
+            'showAll' => !$storeId,
         ]);
     }
 
