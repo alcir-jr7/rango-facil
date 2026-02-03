@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { create } from '@/actions/App/Http/Controllers/StoreController';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { toggleOpen } from '@/routes/stores';
 import { Store, type BreadcrumbItem } from '@/types';
@@ -35,21 +35,33 @@ const deleteStore = (storeId: number) => {
 <template>
     <Head title="Stores" />
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="min-h-screen bg-gradient-to-br from-orange-50 to-white p-6">
-            <!-- Header -->
-            <div class="mb-8 flex items-center justify-between">
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-800">Minhas Lojas</h1>
-                    <p class="mt-1 text-gray-500">Gerencie suas lojas e produtos</p>
+        <div class="min-h-screen bg-orange-50/30">
+            <section class="max-w-7xl mx-auto px-6 pt-8 pb-6">
+                <div class="bg-gradient-to-r from-orange-400 to-orange-500 rounded-3xl p-8 shadow-lg relative overflow-hidden">
+                    <div class="z-10 relative">
+                        <h1 class="text-white text-5xl font-bold mb-3">
+                            Gerenciar Minhas Lojas
+                        </h1>
+                        <p class="text-white/90 text-lg mb-6 max-w-2xl">
+                            Crie, edite e gerencie suas lojas. Controle o status de funcionamento e acompanhe seu negócio em tempo real.
+                        </p>
+                        <Link :href="create()">
+                            <Button class="bg-white text-orange-500 hover:bg-orange-50 font-semibold px-6 py-3 rounded-xl shadow-md">
+                                <i class="bi bi-plus-circle-fill mr-2"></i>
+                                Criar Nova Loja
+                            </Button>
+                        </Link>
+                    </div>
+                    <div class="absolute right-8 top-1/2 -translate-y-1/2 hidden md:block">
+                        <i class="bi bi-shop text-white/50 text-[160px]"></i>
+                    </div>
+                    <div class="absolute right-8 bottom-0 w-64 h-64 bg-orange-600/20 rounded-full blur-3xl"></div>
                 </div>
-                <Link :href="create()">
-                    <Button class="bg-orange-500 hover:bg-orange-600 shadow-lg">
-                        <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                        Criar Nova Loja
-                    </Button>
-                </Link>
+            </section>
+
+            <div class=" mt-10 mb-4 flex flex-col">
+                <h1 class="text-3xl font-bold text-gray-800">Minhas Lojas</h1>
+                <p class="text-gray-500">Gerencie suas lojas e produtos</p>
             </div>
 
             <!-- Lista de Lojas -->
