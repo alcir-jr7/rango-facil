@@ -16,7 +16,7 @@ class ProductCategorySeeder extends Seeder
     {
         $categories = [
             'Hambúrgueres',
-            'Cachorro-quente',
+            'Cachorro-quentes',
             'Pizzas',
             'Sanduíches',
             'Salgados',
@@ -24,6 +24,7 @@ class ProductCategorySeeder extends Seeder
             'Bebidas',
             'Sobremesas',
             'Combos',
+            'Outros',
         ];
 
         foreach ($categories as $category) {
