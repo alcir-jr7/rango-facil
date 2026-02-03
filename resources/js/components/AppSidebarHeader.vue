@@ -4,8 +4,13 @@
     import { User, ShoppingCart, Star, Store } from 'lucide-vue-next';
     import { Link, usePage, router } from '@inertiajs/vue3';
     import type { BreadcrumbItemType } from '@/types';
-    import { ArrowLeft } from 'lucide-vue-next';
+    import { ArrowLeft, Settings, LogOut } from 'lucide-vue-next';
+    import { logout } from '@/routes';
     
+    const handleLogout = () => {
+    router.flushAll()
+    }
+
     const page = usePage()
     const cartCount = page.props.cartCount as number
     const trigger = ref();
@@ -75,12 +80,43 @@
                     {{ cartCount }}
                 </span>
             </Link>
-
-            <Link href="/settings/profile" class="flex items-center gap-3 p-2">
-                <div class="w-10 h-10 bg-orange-500 hover:bg-orange-600 rounded-full flex items-center justify-center">
-                    <User class="w-6 h-6 text-white"/>
+            
+            <div class="relative group">
+                <div
+                    class="w-10 h-10 bg-orange-500 hover:bg-orange-600
+                        rounded-full flex items-center justify-center
+                        cursor-pointer"
+                >
+                    <User class="w-6 h-6 text-white" />
                 </div>
-            </Link>
+                <div
+                    class="absolute right-0 mt-2 w-48
+                        bg-white border border-gray-100
+                        rounded-xl shadow-lg
+                        opacity-0 invisible
+                        group-hover:opacity-100 group-hover:visible
+                        transition-all duration-200 z-50"
+                >
+                    <Link
+                        href="/settings/profile"
+                        class="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                        <Settings class="w-4 h-4" />
+                        Configurações
+                    </Link>
+
+                    <Link
+                        :href="logout()"
+                        @click="handleLogout"
+                        as="button"
+                        data-test="logout-button"
+                        class="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                    >
+                        <LogOut class="w-4 h-4" />
+                        Sair
+                    </Link>
+                </div>
+            </div>
         </div>
     </header>
 </template>
