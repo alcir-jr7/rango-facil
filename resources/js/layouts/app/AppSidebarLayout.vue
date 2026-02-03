@@ -18,11 +18,11 @@ withDefaults(defineProps<Props>(), {
 <template>
     <AppShell variant="sidebar">
 
-        <!-- SIDEBAR CUSTOMIZADA -->
+        <!-- SIDEBAR CUSTOMIZADA   
         <div class="bg-orange-500">
             <AppSidebar />
         </div>
-
+        -->
         <!-- CONTEÚDO FULL WIDTH -->
         <AppContent 
             variant="sidebar" 
