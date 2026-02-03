@@ -2,9 +2,10 @@
     import { ref } from 'vue';
     import { SidebarTrigger } from '@/components/ui/sidebar';
     import { User, ShoppingCart, Star, Store } from 'lucide-vue-next';
-    import { Link, usePage } from '@inertiajs/vue3';
+    import { Link, usePage, router } from '@inertiajs/vue3';
     import type { BreadcrumbItemType } from '@/types';
-
+    import { ArrowLeft } from 'lucide-vue-next';
+    
     const page = usePage()
     const cartCount = page.props.cartCount as number
     const trigger = ref();
@@ -17,6 +18,10 @@
             breadcrumbs: () => [],
         },
     );
+
+    const goBack = () => {
+        window.history.back();
+    };
 </script>
 
 <template>
@@ -24,7 +29,11 @@
         class="flex h-20 shrink-0 items-center justify-between border-b px-8 bg-white border-gray-100"
     >
         <SidebarTrigger ref="trigger" class="hidden" />
-        
+    <button @click="goBack"
+        class="mr-4 flex items-center justify-center rounded-full p-2 hover:bg-orange-600 transition" aria-label="Voltar">
+        <ArrowLeft class="w-6 h-6 text-gray-700" />
+    </button>
+
         <Link href="/dashboard">
             <div class="flex items-center gap-4">
                 <img 
