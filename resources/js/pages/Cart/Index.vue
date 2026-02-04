@@ -6,9 +6,11 @@ defineProps<{
   items: {
     id: number
     name: string
+    product_id: number
     price: number
     quantity: number
     subtotal: number
+    price_type: 'minimo' | 'normal'
     image?: string | null
   }[]
   total: number
@@ -19,6 +21,7 @@ const formatCurrency = (value: number) =>
     style: 'currency',
     currency: 'BRL',
   })
+
 </script>
 
 <template>
@@ -26,7 +29,7 @@ const formatCurrency = (value: number) =>
 
   <AppLayout>
     <div class="max-w-4xl mx-auto px-6 py-10">
-      <h1 class="text-2xl font-bold mb-6">Meu Carrinho</h1>
+      <h1 class="text-2xl font-bold text-gray-700 mb-6">Meu Carrinho</h1>
 
       <div v-if="items.length">
         <div
@@ -45,6 +48,17 @@ const formatCurrency = (value: number) =>
             <p class="text-sm text-gray-500">
               {{ formatCurrency(item.price) }}
             </p>
+            <p class="text-xs mt-1">
+              <span
+                v-if="item.price_type === 'minimo'"
+                class="text-green-600 font-medium"
+              >
+                Preço mínimo escolhido
+              </span>
+              <span v-else class="text-gray-500">
+                Preço normal
+              </span>
+            </p>
 
             <div class="flex items-center gap-3 mt-2">
               <Link
@@ -62,7 +76,7 @@ const formatCurrency = (value: number) =>
               </span>
 
               <Link
-                :href="`/cart/add/${item.id}`"
+                :href="`/cart/add/${item.product_id}`"
                 method="post"
                 as="button"
                 preserve-scroll

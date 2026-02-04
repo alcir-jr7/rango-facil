@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue'
 import { Head, Link, router } from '@inertiajs/vue3'
+import { ref } from 'vue'
+import ChoosePriceModal from '@/components/ChoosePriceModal.vue'
 import axios from 'axios'
 
 function updateCartCount() {
@@ -38,6 +40,32 @@ const formatCurrency = (value?: number | string | null) => {
     style: 'currency',
     currency: 'BRL',
   })
+}
+
+/* MODAL DE ESCOLHA DE PREÇO */
+const showPriceModal = ref(false)
+const selectedProduct = ref<Product | null>(null)
+
+const openPriceModal = (product: Product) => {
+  selectedProduct.value = product
+  showPriceModal.value = true
+}
+
+const addToCart = (priceType: 'normal' | 'minimo') => {
+  if (!selectedProduct.value) return
+
+  router.post(
+    `/cart/add/${selectedProduct.value.id}`,
+    { price_type: priceType },
+    {
+      preserveScroll: true,
+      onSuccess: updateCartCount,
+      onFinish: () => {
+        showPriceModal.value = false
+        selectedProduct.value = null
+      },
+    }
+  )
 }
 
 const comprarAgora = async (productId: number) => {
@@ -104,7 +132,7 @@ const comprarAgora = async (productId: number) => {
           </Link>
         </div>
 
-        <div class="flex gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div class="flex gap-6 overflow-x-auto pb-4">
           <div
             v-for="s in stores.slice(0, 6)"
             :key="s.id"
@@ -230,7 +258,7 @@ const comprarAgora = async (productId: number) => {
                 <p class="text-2xl font-bold text-gray-800">
                   {{ formatCurrency(p.price) }}
                 </p>
-                <p v-if="p.min_price" class="text-sm text-gray-400 line-through">
+                <p v-if="p.min_price" class="text-sm text-gray-400">
                   {{ formatCurrency(p.min_price) }}
                 </p>
               </div>
@@ -243,16 +271,13 @@ const comprarAgora = async (productId: number) => {
               >
                 Comprar
               </button>
-              <Link
-                :href="`/cart/add/${p.id}`"
-                method="post"
-                as="button"
-                preserve-scroll
-                @success="updateCartCount"
-                class="hover:opacity-80 transition"
+              <!-- ABRE MODAL -->
+              <button
+                @click="openPriceModal(p)"
+                class="text-orange-500 hover:opacity-80"
               >
                 <i class="bi bi-cart-plus-fill text-3xl"></i>
-              </Link>
+              </button>
             </div>
           </div>
         </div>
@@ -272,5 +297,14 @@ const comprarAgora = async (productId: number) => {
       </div>
     </section>
   </div>
+  <!-- MODAL DE PREÇO -->
+  <ChoosePriceModal
+    v-if="showPriceModal && selectedProduct"
+    :product-id="selectedProduct.id"
+    :price="Number(selectedProduct.price)"
+    :min-price="selectedProduct.min_price ? Number(selectedProduct.min_price) : null"
+    @close="showPriceModal = false"
+    @select="addToCart"
+  />
 </AppLayout>
 </template>
