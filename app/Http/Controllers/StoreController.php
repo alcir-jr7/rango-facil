@@ -145,4 +145,19 @@ class StoreController extends Controller
             abort(403, 'Você não tem permissão para acessar esta loja.');
         }
     }
+
+    public function all(Request $request)
+    {
+        $user = $request->user();
+
+        $stores = Store::withCount([
+            'favoritedBy as is_favorited' => function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            },
+        ])->get();
+
+        return Inertia::render('stores/all', [
+            'stores' => $stores,
+        ]);
+    }
 }

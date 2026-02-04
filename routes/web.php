@@ -78,6 +78,7 @@ Route::middleware(['auth'])->group(function () {
     | ⚠️ IMPORTANTE: Colocar rotas específicas ANTES do resource
     */
     Route::get('/stores/create', [StoreController::class, 'create'])->name('stores.create');
+    Route::get('/stores/all', [StoreController::class, 'all'])->name('stores.all');
     Route::get('/stores', [StoreController::class, 'index'])->name('stores.index');
     Route::post('/stores', [StoreController::class, 'store'])->name('stores.store');
     Route::get('/stores/{store}/edit', [StoreController::class, 'edit'])->name('stores.edit');
