@@ -30,27 +30,35 @@ class CartController extends Controller
             return [
                 'id'        => $item->product->id,
                 'name'      => $item->product->name,
-                'price'     => (float) $price,
+                'price'       => (float) $item->unit_price,
+                'price_type'  => $item->price_type, 
                 'quantity'  => $item->quantity,
-                'subtotal'  => $price * $item->quantity,
+                'subtotal'    => $item->subtotal, 
                 'image'     => $item->product->image_path,
             ];
         });
 
         return inertia('Cart/Index', [
             'items' => $items,
-            'total' => $items->sum('subtotal'),
+            'total' => $cart->total,
         ]);
     }
 
-    public function add(Product $product)
+    public function add(Request $request, Product $product)
     {
         $cart = Cart::firstOrCreate([
             'user_id' => auth()->id(),
         ]);
 
+        $priceType = $request->input('price_type', 'normal');
+
+        $unitPrice = $priceType === 'minimo' && $product->min_price
+            ? $product->min_price
+            : $product->price;
+
         $item = $cart->items()
             ->where('product_id', $product->id)
+            ->where('price_type', $priceType)
             ->first();
 
         if ($item) {
@@ -58,7 +66,10 @@ class CartController extends Controller
         } else {
             $cart->items()->create([
                 'product_id' => $product->id,
-                'quantity' => 1,
+                'quantity'   => 1,
+                'price'      => $unitPrice,
+                'price_type' => $priceType,
+                'unit_price' => $unitPrice,
             ]);
         }
 
