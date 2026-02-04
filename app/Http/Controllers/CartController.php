@@ -29,6 +29,7 @@ class CartController extends Controller
 
             return [
                 'id'        => $item->product->id,
+                'product_id'=> $item->product->id,
                 'name'      => $item->product->name,
                 'price'       => (float) $item->unit_price,
                 'price_type'  => $item->price_type, 
@@ -76,7 +77,7 @@ class CartController extends Controller
         return back();
     }
 
-    public function decrease(Product $product)
+    public function decrease(Request $request, Product $product)
     {
         $cart = Cart::where('user_id', auth()->id())->first();
 
@@ -84,8 +85,11 @@ class CartController extends Controller
             return back();
         }
 
+        $priceType = $request->input('price_type', 'normal');
+
         $item = $cart->items()
             ->where('product_id', $product->id)
+            ->where('price_type', $priceType)
             ->first();
 
         if ($item && $item->quantity > 1) {
@@ -95,15 +99,20 @@ class CartController extends Controller
         return back();
     }
 
-    public function remove(Product $product)
+    public function remove(Request $request, Product $product)
     {
         $cart = Cart::where('user_id', auth()->id())->first();
-
-        if ($cart) {
-            $cart->items()
-                ->where('product_id', $product->id)
-                ->delete();
+        
+        if (!$cart) {
+            return back();
         }
+
+        $priceType = $request->input('price_type', 'normal');
+
+        $cart->items()
+            ->where('product_id', $product->id)
+            ->where('price_type', $priceType)
+            ->delete();
 
         return back();
     }

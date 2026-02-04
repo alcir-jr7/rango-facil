@@ -62,8 +62,9 @@ const formatCurrency = (value: number) =>
 
             <div class="flex items-center gap-3 mt-2">
               <Link
-                :href="`/cart/decrease/${item.id}`"
+                :href="`/cart/decrease/${item.product_id}`"
                 method="post"
+                :data="{ price_type: item.price_type }"
                 as="button"
                 preserve-scroll
                 class="w-9  h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition"
@@ -78,6 +79,7 @@ const formatCurrency = (value: number) =>
               <Link
                 :href="`/cart/add/${item.product_id}`"
                 method="post"
+                :data="{ price_type: item.price_type }"
                 as="button"
                 preserve-scroll
                 class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition"
@@ -93,8 +95,9 @@ const formatCurrency = (value: number) =>
             </span>
 
             <Link
-              :href="`/cart/remove/${item.id}`"
+              :href="`/cart/remove/${item.product_id}`"
               method="delete"
+              :data="{ price_type: item.price_type }"
               as="button"
               preserve-scroll
               class="text-red-500 hover:text-red-700"
