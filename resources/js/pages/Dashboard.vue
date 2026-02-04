@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue'
 import { Head, Link, router } from '@inertiajs/vue3'
-import { ref, onMounted, onUnmounted } from 'vue'
 import axios from 'axios'
 
 function updateCartCount() {
@@ -29,7 +28,7 @@ type Product = {
   image_path?: string | null
 }
 
-const props = defineProps<{
+defineProps<{
   stores: Store[]
   products: Product[]
 }>()
@@ -41,27 +40,6 @@ const formatCurrency = (value?: number | string | null) => {
   })
 }
 
-const formatPrice = (p: Product) => formatCurrency(p.price)
-
-const carouselRef = ref<HTMLElement | null>(null)
-const isPaused = ref(false)
-let interval: number | null = null
-
-const startScroll = () => {
-  interval = window.setInterval(() => {
-    if (!isPaused.value && carouselRef.value) {
-      carouselRef.value.scrollLeft += 0.6
-    }
-  }, 20)
-}
-
-const stopScroll = () => {
-  if (interval) clearInterval(interval)
-}
-
-onMounted(startScroll)
-onUnmounted(stopScroll)
-
 const comprarAgora = async (productId: number) => {
   try {
     const response = await axios.post('/pagamento/criar', {
@@ -71,8 +49,12 @@ const comprarAgora = async (productId: number) => {
     // redireciona para o Mercado Pago
     window.location.href = response.data.init_point
   } catch (error: any) {
-  console.log(error.response)
-  alert(error.response?.status + ' - ' + error.response?.data?.message)
+    console.error(error)
+
+    alert(
+      error.response?.data?.message ??
+      'Erro ao iniciar pagamento. Tente novamente.'
+    )
   }
 }
 </script>
@@ -114,7 +96,7 @@ const comprarAgora = async (productId: number) => {
             Lojas Parceiras
           </h2>
           <Link 
-            href="/stores"
+            href="/stores/all"
             class="text-orange-500 hover:text-orange-600 font-semibold text-sm flex items-center gap-1 transition"
           >
             Ver todas
@@ -266,7 +248,7 @@ const comprarAgora = async (productId: number) => {
                 method="post"
                 as="button"
                 preserve-scroll
-                @success="router.reload({ only: ['cartCount'] })"
+                @success="updateCartCount"
                 class="hover:opacity-80 transition"
               >
                 <i class="bi bi-cart-plus-fill text-3xl"></i>
@@ -289,7 +271,6 @@ const comprarAgora = async (productId: number) => {
         </div>
       </div>
     </section>
-
   </div>
 </AppLayout>
 </template>
