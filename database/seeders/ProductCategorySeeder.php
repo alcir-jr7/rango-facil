@@ -15,16 +15,16 @@ class ProductCategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'Hambúrgueres',
-            'Cachorro-quentes',
-            'Pizzas',
-            'Sanduíches',
-            'Salgados',
-            'Acompanhamentos',
-            'Bebidas',
-            'Sobremesas',
-            'Combos',
-            'Outros',
+            'Hambúrguer',
+            'Cachorro-quente',
+            'Pizza',
+            'Sanduíche',
+            'Salgado',
+            'Acompanhamento',
+            'Bebida',
+            'Sobremesa',
+            'Combo',
+            'Outro',
         ];
 
         foreach ($categories as $category) {
