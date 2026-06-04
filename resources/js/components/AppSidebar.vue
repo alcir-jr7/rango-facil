@@ -14,10 +14,8 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Store, LayoutGrid, Github } from 'lucide-vue-next';
+import { ShoppingBag, Store, LayoutGrid, Star, Heart } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
-import { index } from '@/actions/App/Http/Controllers/StoreController';
-
 
 const mainNavItems: NavItem[] = [
     {
@@ -27,26 +25,27 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Minhas lojas',
-        href: index(),
+        href: '/stores',
         icon: Store,
     },
-
-];
-
-const footerNavItems: NavItem[] = [
     {
-        title: 'Github Repo',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Github,
+        title: 'Meus pedidos',
+        href: '/orders',
+        icon: ShoppingBag,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
+        title: 'Favoritos',
+        href: '/favorites',
+        icon: Heart,
     },
-    
-    
+    {
+        title: 'Avaliações recebidas',
+        href: '/my-store/reviews',
+        icon: Star,
+    },
 ];
+
+const footerNavItems: NavItem[] = [];
 </script>
 
 <template>
