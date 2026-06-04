@@ -77,12 +77,17 @@ const comprarAgora = async (productId: number) => {
     // redireciona para o Mercado Pago
     window.location.href = response.data.init_point
   } catch (error: any) {
-    console.error(error)
+    console.error('Erro MP:', error.response?.data)
 
-    alert(
-      error.response?.data?.message ??
-      'Erro ao iniciar pagamento. Tente novamente.'
-    )
+    const data = error.response?.data
+    let msg = data?.message ?? 'Erro ao iniciar pagamento. Tente novamente.'
+
+    // Mostra detalhes do MP se disponível
+    if (data?.mp_error) {
+      console.error('Detalhes MP:', JSON.stringify(data.mp_error, null, 2))
+    }
+
+    alert(msg)
   }
 }
 </script>
