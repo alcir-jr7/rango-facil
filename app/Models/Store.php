@@ -7,14 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Store extends Model
 {
-    /** @use HasFactory<\Database\Factories\StoreFactory> */
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'image',
@@ -23,21 +17,29 @@ class Store extends Model
         'owner_id',
     ];
 
-    /**
-     * Get the owner of the store.
-     */
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
     }
-     public function products()
+
+    public function products()
     {
         return $this->hasMany(Product::class, 'store_id');
     }
-    public function favoritedBy()
-{
-    return $this->belongsToMany(User::class, 'favorite_stores')
-                ->withTimestamps();
-}
 
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorite_stores')
+                    ->withTimestamps();
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
